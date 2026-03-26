@@ -1,7 +1,4 @@
 {
   "name": "portfolio",
-  "type": "javascript",
-  "main": "dist/server/server.mjs",
-  "compatibility_date": "2025-09-27",
-  "compatibility_flags": ["nodejs_compat"]
+  "pages_build_output_dir": "dist/kurath.dev/browser"
 }
