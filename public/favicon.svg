@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700display=swap');
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="192" height="192" fill="#f9fafb" rx="32"/>
+
+  <!-- Border accent -->
+  <rect width="192" height="192" fill="none" stroke="#e5e7eb" stroke-width="2" rx="32"/>
+
+  <!-- Initials -->
+  <text
+    x="96"
+    y="128"
+    font-family="'Playfair Display', serif"
+    font-size="88"
+    font-weight="700"
+    text-anchor="middle"
+    fill="#1f2937"
+    letter-spacing="-2"
+  >MK</text>
+</svg>
