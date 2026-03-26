@@ -42,3 +42,4 @@ The build artifacts will be stored in the `dist/` directory.
 ## Future
 
 I'll probably add more sections and content here as the portfolio evolves. It's a work in progress.
+
