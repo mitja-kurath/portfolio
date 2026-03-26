@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:kurath.dev": "node dist/kurath.dev/server/server.mjs",
-    "deploy": "npm run build && npx wrangler pages deploy dist/kurath.dev/browser"
+    "deploy": "npm run build && npx wrangler pages deploy"
   },
   "prettier": {
     "printWidth": 100,
