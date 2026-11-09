@@ -68,7 +68,7 @@ describe('HomePageComponent (rendered against the mock API)', () => {
     const links = Array.from(el.querySelectorAll('nav a')).map((a) =>
       a.textContent!.replace(/\s+/g, ' ').trim(),
     );
-    expect(links).toEqual(['Work 04', 'Notes 01', 'Kit 13', 'Contact ↗']);
+    expect(links).toEqual(['Work 04', 'Notes 01', 'Kit 15', 'Contact ↗']);
   });
 
   it('toggles the mobile menu and closes it on navigation', () => {
@@ -116,9 +116,10 @@ describe('HomePageComponent (rendered against the mock API)', () => {
       'project-card project-d',
     ]);
     expect(classesOf('.project-art')).toEqual([
+      // The motif follows each project's artVariant, not its position.
+      'project-art art-3',
       'project-art art-1',
       'project-art art-2',
-      'project-art art-3',
       'project-art art-4',
     ]);
     expect(el.querySelector('.art-1 .signal-rings')).not.toBeNull();
@@ -149,8 +150,8 @@ describe('HomePageComponent (rendered against the mock API)', () => {
     );
     expect(titles).toEqual([
       ['01', 'Essentials', '05'],
-      ['02', 'Navigation', '04'],
-      ['03', 'Base layer', '04'],
+      ['02', 'Navigation', '05'],
+      ['03', 'Base layer', '05'],
     ]);
     expect(Array.from(el.querySelectorAll('.kit-group:first-child li small')).map((s) => s.textContent)).toEqual([
       '01',
@@ -164,10 +165,10 @@ describe('HomePageComponent (rendered against the mock API)', () => {
   it('renders roles in the styled slots with NOW for the current role', () => {
     expect(classesOf('.role')).toEqual(['role role-1', 'role role-2', 'role role-3', 'role role-4']);
     expect(Array.from(el.querySelectorAll('.role b')).map((b) => b.textContent)).toEqual([
-      '2018',
-      '2020',
-      '2022',
+      '2023',
+      '2025',
       'NOW',
+      '2027',
     ]);
     expect(classesOf('.chart-alt')).toEqual(['chart-alt alt-1', 'chart-alt alt-2', 'chart-alt alt-3']);
   });
@@ -207,7 +208,7 @@ describe('HomePageComponent (rendered against the mock API)', () => {
       '@type': 'Person',
       name: 'Mitja Kurath',
       email: 'hello@mitjakurath.ch',
-      sameAs: ['https://github.com/', 'https://linkedin.com/'],
+      sameAs: ['https://github.com/mitja-kurath', 'https://linkedin.com/'],
     });
   });
 

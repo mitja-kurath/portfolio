@@ -8,10 +8,10 @@ describe('nav counters', () => {
   const { projects, skills } = MOCK_PORTFOLIO;
   const site = SITE_CONTENT;
 
-  it('derives Work 04 / Notes 01 / Kit 13 from the original content', () => {
+  it('derives Work 04 / Notes 01 / Kit 15 from the content', () => {
     const counts = deriveNavCounts(projects, skills);
     const badges = site.navigation.map((item) => `${item.label} ${navBadge(item, counts)}`);
-    expect(badges).toEqual(['Work 04', 'Notes 01', 'Kit 13', 'Contact ↗']);
+    expect(badges).toEqual(['Work 04', 'Notes 01', 'Kit 15', 'Contact ↗']);
   });
 
   it('follows the data', () => {

@@ -91,7 +91,7 @@ describe('mockApiInterceptor', () => {
   it('returns copies so callers cannot mutate the mock', async () => {
     const projects = await firstValueFrom(api.getProjects());
     projects[0].name = 'CHANGED';
-    expect(MOCK_PORTFOLIO.projects[0].name).toBe('Alpine Signal');
+    expect(MOCK_PORTFOLIO.projects[0].name).toBe('Marsch');
   });
 
   it('accepts valid contact messages and rejects invalid ones as problem+json', async () => {

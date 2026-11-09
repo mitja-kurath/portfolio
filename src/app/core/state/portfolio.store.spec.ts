@@ -52,13 +52,13 @@ describe('PortfolioStore', () => {
     expect(store.status()).toBe('ready');
     expect(store.error()).toBeNull();
     expect(store.projects().map((p) => p.name)).toEqual([
-      'Alpine Signal',
-      'Nadel',
-      'Contour',
-      'Feuerstelle',
+      'Marsch',
+      'Koda',
+      'markdown2pdf',
+      'VST3 Template',
     ]);
     expect(store.skills().map((s) => s.title)).toEqual(['Essentials', 'Navigation', 'Base layer']);
-    expect(store.roles().at(-1)?.isCurrent).toBe(true);
+    expect(store.roles().find((r) => r.isCurrent)?.subtitle).toBe('Kyberna AG · 4th year');
     expect(store.projects()).toHaveLength(4);
   });
 
@@ -104,7 +104,7 @@ describe('PortfolioStore', () => {
     TestBed.tick();
 
     expect(seeded.status()).toBe('ready');
-    expect(seeded.projects()[0].name).toBe('Alpine Signal');
+    expect(seeded.projects()[0].name).toBe('Marsch');
     http.expectOne('/api/v1/portfolio').flush(null, { status: 404, statusText: 'Not Found' });
     await TestBed.inject(ApplicationRef).whenStable();
     expect(seeded.status()).toBe('ready');

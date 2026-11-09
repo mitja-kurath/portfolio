@@ -140,13 +140,13 @@ describe('admin projects', () => {
   it('lists every project including drafts, with the published flag', async () => {
     const { call, signIn, db } = setup();
     await signIn();
-    db.exec("UPDATE projects SET published = 0 WHERE id = 'nadel'");
+    db.exec("UPDATE projects SET published = 0 WHERE id = 'koda'");
     const projects = (await (await call('GET', '/projects')).json()) as { id: string; published: boolean }[];
     expect(projects.map((p) => [p.id, p.published])).toEqual([
-      ['alpine-signal', true],
-      ['nadel', false],
-      ['contour', true],
-      ['feuerstelle', true],
+      ['marsch', true],
+      ['koda', false],
+      ['markdown2pdf', true],
+      ['vst3-template', true],
     ]);
   });
 
@@ -196,16 +196,16 @@ describe('admin projects', () => {
   it('rejects duplicate ids with 409', async () => {
     const { call, signIn } = setup();
     await signIn();
-    const res = await call('POST', '/projects', { ...NEW_PROJECT, id: 'nadel' });
+    const res = await call('POST', '/projects', { ...NEW_PROJECT, id: 'koda' });
     expect(res.status).toBe(409);
   });
 
   it('updates a project and keeps its id and order', async () => {
     const { call, signIn } = setup();
     await signIn();
-    const res = await call('PUT', '/projects/nadel', { ...withoutId(NEW_PROJECT), name: 'Nadel 2' });
+    const res = await call('PUT', '/projects/koda', { ...withoutId(NEW_PROJECT), name: 'Koda 2' });
     expect(res.status).toBe(200);
-    expect(await res.json()).toMatchObject({ id: 'nadel', order: 2, name: 'Nadel 2', published: false });
+    expect(await res.json()).toMatchObject({ id: 'koda', order: 2, name: 'Koda 2', published: false });
   });
 
   it('answers 404 for unknown ids', async () => {
@@ -218,25 +218,25 @@ describe('admin projects', () => {
   it('reorders with the full list of ids only', async () => {
     const { call, signIn } = setup();
     await signIn();
-    const order = ['feuerstelle', 'alpine-signal', 'nadel', 'contour'];
+    const order = ['vst3-template', 'marsch', 'koda', 'markdown2pdf'];
     const res = await call('PUT', '/projects/order', { ids: order });
     expect(res.status).toBe(200);
     expect(((await res.json()) as { id: string; order: number }[]).map((p) => `${p.order}:${p.id}`)).toEqual([
-      '1:feuerstelle',
-      '2:alpine-signal',
-      '3:nadel',
-      '4:contour',
+      '1:vst3-template',
+      '2:marsch',
+      '3:koda',
+      '4:markdown2pdf',
     ]);
     expect((await call('PUT', '/projects/order', { ids: order.slice(1) })).status).toBe(400);
-    expect((await call('PUT', '/projects/order', { ids: [...order.slice(1), 'nadel'] })).status).toBe(400);
+    expect((await call('PUT', '/projects/order', { ids: [...order.slice(1), 'koda'] })).status).toBe(400);
   });
 
   it('deletes a project', async () => {
     const { call, signIn } = setup();
     await signIn();
-    expect((await call('DELETE', '/projects/contour')).status).toBe(204);
+    expect((await call('DELETE', '/projects/markdown2pdf')).status).toBe(204);
     const ids = ((await (await call('GET', '/projects')).json()) as { id: string }[]).map((p) => p.id);
-    expect(ids).toEqual(['alpine-signal', 'nadel', 'feuerstelle']);
+    expect(ids).toEqual(['marsch', 'koda', 'vst3-template']);
   });
 });
 
@@ -253,15 +253,15 @@ describe('admin skill groups and roles', () => {
   it('updates a role', async () => {
     const { call, signIn } = setup();
     await signIn();
-    const res = await call('PUT', '/roles/independent', {
+    const res = await call('PUT', '/roles/kyberna', {
       year: '2026',
       title: 'Founder',
       subtitle: 'New summit',
       isCurrent: true,
     });
     expect(await res.json()).toEqual({
-      id: 'independent',
-      order: 4,
+      id: 'kyberna',
+      order: 3,
       year: '2026',
       title: 'Founder',
       subtitle: 'New summit',

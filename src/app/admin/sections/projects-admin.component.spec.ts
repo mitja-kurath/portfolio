@@ -60,20 +60,20 @@ describe('ProjectsAdminComponent', () => {
   it('lists projects in order and marks drafts', () => {
     const rows = Array.from(el.querySelectorAll('.admin-list li'));
     expect(rows.map((r) => r.querySelector('strong')!.textContent)).toEqual([
-      'Alpine Signal',
-      'Nadel',
-      'Contour',
-      'Feuerstelle',
+      'Marsch',
+      'Koda',
+      'markdown2pdf',
+      'VST3 Template',
     ]);
     expect(rows[1].querySelector('.admin-badge')?.textContent).toBe('DRAFT');
-    const up = rows[0].querySelector<HTMLButtonElement>('[aria-label="Move Alpine Signal up"]')!;
+    const up = rows[0].querySelector<HTMLButtonElement>('[aria-label="Move Marsch up"]')!;
     expect(up.disabled).toBe(true);
   });
 
   it('moves a project down via the reorder endpoint', async () => {
-    el.querySelector<HTMLButtonElement>('[aria-label="Move Alpine Signal down"]')!.click();
+    el.querySelector<HTMLButtonElement>('[aria-label="Move Marsch down"]')!.click();
     const req = http.expectOne({ method: 'PUT', url: '/api/v1/admin/projects/order' });
-    expect(req.request.body).toEqual({ ids: ['nadel', 'alpine-signal', 'contour', 'feuerstelle'] });
+    expect(req.request.body).toEqual({ ids: ['koda', 'marsch', 'markdown2pdf', 'vst3-template'] });
     req.flush([]);
     await tick();
     http.expectOne('/api/v1/admin/projects').flush(PROJECTS);
@@ -117,11 +117,11 @@ describe('ProjectsAdminComponent', () => {
     button('Edit', el.querySelectorAll('.admin-list li')[2]).click();
     fixture.detectChanges();
     const id = el.querySelector<HTMLInputElement>('[formControlName="id"]')!;
-    expect(id.value).toBe('contour');
+    expect(id.value).toBe('markdown2pdf');
     expect(id.disabled).toBe(true);
 
     el.querySelector('form')!.dispatchEvent(new Event('submit'));
-    const req = http.expectOne({ method: 'PUT', url: '/api/v1/admin/projects/contour' });
+    const req = http.expectOne({ method: 'PUT', url: '/api/v1/admin/projects/markdown2pdf' });
     expect(req.request.body.id).toBeUndefined();
     req.flush(
       {
@@ -143,10 +143,10 @@ describe('ProjectsAdminComponent', () => {
     const row = el.querySelectorAll('.admin-list li')[3];
     button('Delete', row).click();
     fixture.detectChanges();
-    http.expectNone({ method: 'DELETE', url: '/api/v1/admin/projects/feuerstelle' });
+    http.expectNone({ method: 'DELETE', url: '/api/v1/admin/projects/vst3-template' });
     button('Really delete?', row).click();
     http
-      .expectOne({ method: 'DELETE', url: '/api/v1/admin/projects/feuerstelle' })
+      .expectOne({ method: 'DELETE', url: '/api/v1/admin/projects/vst3-template' })
       .flush(null, { status: 204, statusText: 'No Content' });
     await tick();
     http.expectOne('/api/v1/admin/projects').flush(PROJECTS.slice(0, 3));

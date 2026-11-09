@@ -111,7 +111,7 @@ export const SITE_CONTENT: SiteContent = {
     {
       kind: 'github',
       label: 'GitHub',
-      href: 'https://github.com/',
+      href: 'https://github.com/mitja-kurath',
       hint: '1 CLICK · NEARBY',
       external: true,
       direction: 'left',
