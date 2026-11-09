@@ -1,0 +1,5 @@
+{
+  "name": "portfolio",
+  // Static, pre-rendered output of `ng build` (outputMode: "static").
+  "pages_build_output_dir": "dist/portfolio/browser"
+}

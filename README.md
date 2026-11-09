@@ -35,6 +35,15 @@ At runtime the browser starts from the pre-rendered content and fetches
 
 Rebuild whenever you want crawlers to see new content.
 
+## Deploy (Cloudflare Pages)
+
+- **From your machine:** `pnpm deploy` builds and uploads `dist/portfolio/browser` (see `wrangler.jsonc`).
+- **Git integration** (Pages → Settings → Builds):
+  - Build command: `pnpm build`
+  - Build output directory: `dist/portfolio/browser`
+  - Node version comes from `.node-version` (22); pnpm is detected from `pnpm-lock.yaml`.
+  - Optional environment variable: `PORTFOLIO_API_URL` (pre-render real content; see below).
+
 ## Mock API vs. real API
 
 | File | `useMock` | Used by |
