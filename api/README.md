@@ -112,7 +112,8 @@ key in `environment.ts`, so the widget shows "for testing only".
 ```bash
 cd api
 pnpm exec wrangler login
-pnpm exec wrangler d1 create portfolio      # copy the printed database_id into wrangler.jsonc
+pnpm exec wrangler d1 create portfolio      # answer "no" to adding it for you; put the printed
+                                            # database_id into the existing DB binding in wrangler.jsonc
 pnpm db:migrate:remote
 pnpm db:seed:remote                         # once; later the admin panel edits the data
 pnpm exec wrangler secret put TURNSTILE_SECRET_KEY   # see "Contact form"

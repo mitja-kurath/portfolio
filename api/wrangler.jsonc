@@ -1,35 +1,46 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "portfolio-api",
-  "main": "src/index.ts",
-  "compatibility_date": "2026-10-01",
-  "observability": { "enabled": true },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "portfolio",
-      // Replace with the id printed by `pnpm exec wrangler d1 create portfolio` before the first remote deploy.
-      "database_id": "00000000-0000-0000-0000-000000000000",
-      "migrations_dir": "migrations"
-    }
-  ],
-  "vars": {
-    // Browser origins allowed to call the API (CORS). Add your Pages domain(s) here.
-    "ALLOWED_ORIGINS": "http://localhost:4200,https://kurath.dev,https://www.kurath.dev",
-    // Contact form email notification (sender must be on a domain verified at Resend).
-    "CONTACT_TO_EMAIL": "",
-    "CONTACT_FROM_EMAIL": "",
-    // Admin API (Cloudflare Access). See api/README.md → Admin panel.
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": "",
-    "ADMIN_EMAILS": ""
-  },
-  // Secrets (not in this file): TURNSTILE_SECRET_KEY, RESEND_API_KEY, DEPLOY_HOOK_URL.
-  // Production: `pnpm exec wrangler secret put <NAME>`. Local: api/.dev.vars (see .dev.vars.example).
-  "ratelimits": [
-    // At most 5 contact form posts per IP per minute.
-    { "name": "CONTACT_LIMITER", "namespace_id": "1001", "simple": { "limit": 5, "period": 60 } }
-  ],
-  // `ng serve` proxies /api to localhost:8080 (proxy.conf.json), so the local API listens there.
-  "dev": { "port": 8080 }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "portfolio-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-10-01",
+	"observability": {
+		"enabled": true
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "portfolio",
+			// Id printed by `pnpm exec wrangler d1 create portfolio`.
+			"database_id": "83bc54e5-3387-42ba-bba8-f761afaf4e5a",
+			"migrations_dir": "migrations"
+		}
+	],
+	"vars": {
+		// Browser origins allowed to call the API (CORS). Add your Pages domain(s) here.
+		"ALLOWED_ORIGINS": "http://localhost:4200,https://kurath.dev,https://www.kurath.dev",
+		// Contact form email notification (sender must be on a domain verified at Resend).
+		"CONTACT_TO_EMAIL": "",
+		"CONTACT_FROM_EMAIL": "",
+		// Admin API (Cloudflare Access). See api/README.md → Admin panel.
+		"ACCESS_TEAM_DOMAIN": "",
+		"ACCESS_AUD": "",
+		"ADMIN_EMAILS": ""
+	},
+	// Secrets (not in this file): TURNSTILE_SECRET_KEY, RESEND_API_KEY, DEPLOY_HOOK_URL.
+	// Production: `pnpm exec wrangler secret put <NAME>`. Local: api/.dev.vars (see .dev.vars.example).
+	"ratelimits": [
+		// At most 5 contact form posts per IP per minute.
+		{
+			"name": "CONTACT_LIMITER",
+			"namespace_id": "1001",
+			"simple": {
+				"limit": 5,
+				"period": 60
+			}
+		}
+	],
+	// `ng serve` proxies /api to localhost:8080 (proxy.conf.json), so the local API listens there.
+	"dev": {
+		"port": 8080
+	}
 }
