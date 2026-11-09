@@ -69,6 +69,10 @@ Rebuild whenever you want crawlers to see new content.
 Other flags in the environment files:
 
 - `persistTheme`: set it to `true` to remember light/dark mode in `localStorage`. Default: off.
+- `contactForm.enabled` / `contactForm.turnstileSiteKey`: the contact form posts to the API and
+  is protected by Cloudflare Turnstile.
+  - Dev: on, with Cloudflare's test key.
+  - Production: off until the API is deployed (see [api/README.md](api/README.md#contact-form)).
 
 ## Structure
 

@@ -10,8 +10,8 @@
   </span>
 </div>
 <h2 appDisplayHeading [lines]="s.headingLines" [emphasis]="s.emphasis" [inline]="!!s.emphasisInline"></h2>
-@if (form().enabled) {
-  <app-contact-form [config]="form()" />
+@if (formSettings.enabled) {
+  <app-contact-form [config]="form()" [turnstileSiteKey]="formSettings.turnstileSiteKey" />
 }
 <div class="signpost">
   <div class="post"></div>

@@ -79,8 +79,6 @@ export interface ContactLink {
 }
 
 export interface ContactFormConfig {
-  /** The form is not part of the original design; keep false for pixel parity. */
-  enabled: boolean;
   title: string;
   nameLabel: string;
   emailLabel: string;
@@ -89,6 +87,10 @@ export interface ContactFormConfig {
   sendingLabel: string;
   successMessage: string;
   errorMessage: string;
+  /** Shown when the visitor submits before the spam check has finished. */
+  spamCheckMessage: string;
+  /** Shown after too many messages in a short time (HTTP 429). */
+  rateLimitMessage: string;
 }
 
 export interface SiteContent {

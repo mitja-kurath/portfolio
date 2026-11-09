@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { etag } from 'hono/etag';
+import { contactRoutes } from './contact/contact.routes';
 import { contentRoutes } from './content/content.routes';
 import type { AppEnv } from './env';
 import { ProblemError, problem } from './problem';
@@ -18,6 +19,7 @@ app.use(
 app.use(etag());
 
 app.route('/', contentRoutes);
+app.route('/', contactRoutes);
 
 app.notFound((c) => problem(c, 404, 'Not Found', `No endpoint at ${c.req.method} ${c.req.path}.`));
 

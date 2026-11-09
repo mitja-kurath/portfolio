@@ -1,4 +1,4 @@
-/* Optional form (off by default). Built from the contact section's own tokens:
+/* Contact form. Built from the contact section's own tokens:
    ink on yellow, mono labels, square inputs, sign-style submit. */
 app-contact-form { position: relative; z-index: 3; display: block; max-width: 420px; margin: 70px 0 0 4%; }
 .contact-form { display: grid; gap: 6px; }
@@ -14,6 +14,8 @@ app-contact-form { position: relative; z-index: 3; display: block; max-width: 42
 .contact-form button:hover:not(:disabled) { transform: translateX(8px); }
 .contact-form button:disabled { opacity: .7; }
 .contact-form button b { font-size: 18px; }
+.contact-form-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.contact-form .turnstile { display: block; min-height: 65px; margin-top: 12px; }
 .contact-form-status { min-height: 1.4em; font: 500 10px/1.4 var(--mono); }
 
 @media (max-width: 800px) {

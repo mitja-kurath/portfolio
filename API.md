@@ -11,7 +11,7 @@ The reference implementation is the Cloudflare Worker in [`api/`](api/README.md)
 - **Format:** `application/json; charset=utf-8`, camelCase property names
 - **Ordering:** arrays with an `order` field are sorted ascending by the client, so the server may return them in any order
 - **Errors:** RFC 7807 `application/problem+json` (Spring Boot: `spring.mvc.problemdetails.enabled=true`)
-- **Auth:** none (public, read-only content plus one public `POST`)
+- **Auth:** none (public, read-only content plus one public, spam-protected `POST`)
 
 | Method | Path                | Purpose                                         | Used by the UI |
 |--------|---------------------|-------------------------------------------------|----------------|
@@ -19,7 +19,7 @@ The reference implementation is the Cloudflare Worker in [`api/`](api/README.md)
 | GET    | `/skills`           | Ordered skill groups                            | via `/portfolio` |
 | GET    | `/experience`       | Ordered career roles                            | via `/portfolio` |
 | GET    | `/portfolio`        | Aggregate of the three above (one-shot load)    | **yes, on start** |
-| POST   | `/contact-messages` | Submit a contact message                        | contact form (when enabled) |
+| POST   | `/contact-messages` | Submit a contact message (Turnstile-protected)  | contact form |
 
 The TypeScript source of truth for the contract is `src/app/core/api/api.models.ts`.
 The sample responses below are generated from `src/app/core/mock/mock-data.ts`, which is
@@ -216,40 +216,54 @@ derived from `items`. The original grid has 3 columns.
 
 ## POST /contact-messages
 
-Request (`Content-Type: application/json`):
+Request (`Content-Type: application/json`, at most 16 KB):
 
 ```json
 {
   "name": "Ada Lovelace",
   "email": "ada@example.com",
-  "message": "Let’s build something together."
+  "message": "Let’s build something together.",
+  "turnstileToken": "<token from the Cloudflare Turnstile widget>",
+  "website": ""
 }
 ```
 
-Validation: `name` required (≤ 200), `email` required and valid (≤ 320), `message` required (≤ 5000).
+- Validation: `name` required (≤ 200), `email` required and valid (≤ 320), `message`
+  required (≤ 5000), `turnstileToken` required.
+- `website` is a honeypot. People never see it. If it is filled in, the API answers `201`
+  but stores and sends nothing.
+- The token is verified with Cloudflare Turnstile. The message is stored (`contact_messages`)
+  and, if configured, emailed to the owner via Resend.
 
-`201 Created` (optionally with a `Location: /api/v1/contact-messages/{id}` header):
+`201 Created` with `Location: /api/v1/contact-messages/{id}`:
 
 ```json
 {
   "id": "0b8f6a2e-5d0c-4f1e-9a51-0c7b8d2e1f3a",
-  "receivedAt": "2025-11-09T10:15:30Z"
+  "receivedAt": "2026-11-09T10:15:30.000Z"
 }
 ```
 
-`400 Bad Request` (`application/problem+json`):
+Errors (`application/problem+json`):
+
+| Status | When |
+|--------|------|
+| `400` | Invalid fields (`errors` maps each field to a message) or a body that is not JSON |
+| `403` | The Turnstile check failed |
+| `413` | Body larger than 16 KB |
+| `429` | More than 5 posts per minute from one IP |
+| `503` | `TURNSTILE_SECRET_KEY` is not configured |
 
 ```json
 {
   "type": "about:blank",
   "title": "Bad Request",
   "status": 400,
-  "detail": "name, email and message are required.",
-  "instance": "/api/v1/contact-messages"
+  "detail": "Some fields are missing or invalid.",
+  "instance": "/api/v1/contact-messages",
+  "errors": { "email": "A valid email address is required." }
 }
 ```
-
-Recommended: rate-limit by IP (e.g. `429 Too Many Requests` as problem+json).
 
 ---
 

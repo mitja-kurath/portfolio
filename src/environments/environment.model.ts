@@ -7,4 +7,11 @@ export interface AppEnvironment {
   readonly mockDelayMs: number;
   /** Opt-in: remember the chosen colour theme in localStorage. */
   readonly persistTheme: boolean;
+  /** Contact form (posts to `POST /contact-messages`). */
+  readonly contactForm: {
+    /** Show the form. Turn on only once the API with TURNSTILE_SECRET_KEY is deployed. */
+    readonly enabled: boolean;
+    /** Cloudflare Turnstile site key (public). */
+    readonly turnstileSiteKey: string;
+  };
 }

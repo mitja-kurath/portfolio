@@ -126,7 +126,6 @@ export const SITE_CONTENT: SiteContent = {
     },
   ],
   contactForm: {
-    enabled: false,
     title: 'Send a message',
     nameLabel: 'Name',
     emailLabel: 'Email',
@@ -135,6 +134,8 @@ export const SITE_CONTENT: SiteContent = {
     sendingLabel: 'Sending…',
     successMessage: 'Message received. I’ll get back to you soon.',
     errorMessage: 'The message could not be sent. Please try again or use email.',
+    spamCheckMessage: 'One moment, the spam check is still running.',
+    rateLimitMessage: 'Too many messages in a short time. Please wait a minute.',
   },
   footer: {
     localTimeLabel: 'LOCAL TIME',

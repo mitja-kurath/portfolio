@@ -54,6 +54,10 @@ export interface ContactMessageRequest {
   name: string;
   email: string;
   message: string;
+  /** Cloudflare Turnstile token from the widget; verified server-side. */
+  turnstileToken?: string;
+  /** Honeypot field, hidden from people. Must stay empty. */
+  website?: string;
 }
 
 export interface ContactMessageResponse {

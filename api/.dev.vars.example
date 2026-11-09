@@ -1,0 +1,7 @@
+# Copy to .dev.vars for `pnpm dev`. These are Cloudflare's official Turnstile *test* keys:
+# the widget with site key 1x00000000000000000000AA always passes, and this secret accepts it.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+# Optional: email notifications via Resend.
+# RESEND_API_KEY=re_...
+# CONTACT_TO_EMAIL=you@example.com
+# CONTACT_FROM_EMAIL=Portfolio <contact@your-domain.dev>

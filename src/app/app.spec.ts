@@ -5,6 +5,7 @@ import { App } from './app';
 import { API_CONFIG } from './core/api/api.config';
 import { apiInterceptor } from './core/api/api.interceptor';
 import { mockApiInterceptor } from './core/api/mock-api.interceptor';
+import { CONTACT_FORM_SETTINGS } from './features/contact/contact-form/contact-form.settings';
 
 describe('App (rendered against the mock API)', () => {
   let fixture: ComponentFixture<App>;
@@ -21,6 +22,7 @@ describe('App (rendered against the mock API)', () => {
       providers: [
         provideHttpClient(withInterceptors([apiInterceptor, mockApiInterceptor])),
         { provide: API_CONFIG, useValue: { baseUrl: '/api/v1', useMock: true, mockDelayMs: 0 } },
+        { provide: CONTACT_FORM_SETTINGS, useValue: { enabled: true, turnstileSiteKey: '' } },
       ],
     });
     fixture = TestBed.createComponent(App);
@@ -183,7 +185,7 @@ describe('App (rendered against the mock API)', () => {
     expect(signs[1].getAttribute('rel')).toBe('noreferrer');
     expect(signs[1].firstElementChild!.tagName).toBe('B');
     expect(signs[2].lastElementChild!.tagName).toBe('B');
-    expect(el.querySelector('app-contact-form')).toBeNull();
+    expect(el.querySelector('app-contact-form form[aria-labelledby="contact-form-title"]')).not.toBeNull();
   });
 
   it('renders the footer with clock, zone label and current year', () => {
