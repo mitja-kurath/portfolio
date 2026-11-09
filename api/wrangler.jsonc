@@ -22,9 +22,9 @@
 		"CONTACT_TO_EMAIL": "",
 		"CONTACT_FROM_EMAIL": "",
 		// Admin API (Cloudflare Access). See api/README.md → Admin panel.
-		"ACCESS_TEAM_DOMAIN": "",
-		"ACCESS_AUD": "",
-		"ADMIN_EMAILS": ""
+		"ACCESS_TEAM_DOMAIN": "https://portfolio-76o-pages.cloudflareaccess.com",
+		"ACCESS_AUD": "1f461c98162b0012d58f5b194ef36b1d8cc9dfe1e0849f78f7e85622b87b6496",
+		"ADMIN_EMAILS": "mitja.kurath@mitjakurath.ch"
 	},
 	// Secrets (not in this file): TURNSTILE_SECRET_KEY, RESEND_API_KEY, DEPLOY_HOOK_URL.
 	// Production: `pnpm exec wrangler secret put <NAME>`. Local: api/.dev.vars (see .dev.vars.example).
