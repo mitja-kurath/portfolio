@@ -19,8 +19,8 @@ export const SITE_CONTENT: SiteContent = {
   },
   timezone: 'Europe/Zurich',
   timezoneLabel: 'CET',
-  footerCity: 'ZÜRICH, CH',
-  brandCoordinates: '46°57′N',
+  footerCity: 'ST. GALLEN, CH',
+  brandCoordinates: '47°25′N',
   navigation: [
     { label: 'Work', href: '#work', counter: 'projects' },
     { label: 'Notes', href: '#about', counter: 'notes' },
@@ -30,9 +30,9 @@ export const SITE_CONTENT: SiteContent = {
   hero: {
     kicker: 'BASE CAMP',
     routeCode: 'ROUTE / MK—25',
-    coordinates: ['47° 22′ 00″ N', '08° 33′ 00″ E'],
+    coordinates: ['47° 25′ 28″ N', '09° 22′ 36″ E'],
     altitudeLabel: 'ALT.',
-    altitude: 408,
+    altitude: 670,
     taglineLines: ['Software developer. Scout.', 'Building things that hold up', 'in any weather.'],
     ctaLabel: 'Follow the trail',
     ctaHref: '#work',

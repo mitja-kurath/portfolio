@@ -17,7 +17,7 @@ export const MOCK_PORTFOLIO: PortfolioDto = {
       description:
         'Upload a GPX or KML route and get walking times, ascent and a printable Marschzeittabelle, based on the SAC formula.',
       artVariant: 3,
-      coordinates: ['N 47.0906°', 'E 09.3426°'],
+      coordinates: ['N 47.4245°', 'E 09.3767°'],
       url: 'https://marsch.mitjakurath.ch',
     },
     {
@@ -30,7 +30,7 @@ export const MOCK_PORTFOLIO: PortfolioDto = {
       description:
         'Upload an OpenAPI spec, browse its endpoints and control access with JWT auth. Built for the security module M183.',
       artVariant: 1,
-      coordinates: ['N 47.0906°', 'E 09.3426°'],
+      coordinates: ['N 47.4245°', 'E 09.3767°'],
       url: 'https://github.com/mitja-kurath/koda',
     },
     {
@@ -43,7 +43,7 @@ export const MOCK_PORTFOLIO: PortfolioDto = {
       description:
         'A Markdown editor with live preview and one-click A4 PDF export. Runs entirely in your browser.',
       artVariant: 2,
-      coordinates: ['N 47.0906°', 'E 09.3426°'],
+      coordinates: ['N 47.4245°', 'E 09.3767°'],
       url: 'https://m2p.mku.wtf',
     },
     {
@@ -56,7 +56,7 @@ export const MOCK_PORTFOLIO: PortfolioDto = {
       description:
         'A minimal VST3 plugin template without JUCE that passes Steinberg’s validator out of the box.',
       artVariant: 4,
-      coordinates: ['N 47.0906°', 'E 09.3426°'],
+      coordinates: ['N 47.4245°', 'E 09.3767°'],
       url: 'https://github.com/mitja-kurath/vst-template',
     },
   ],

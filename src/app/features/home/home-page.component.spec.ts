@@ -103,7 +103,7 @@ describe('HomePageComponent (rendered against the mock API)', () => {
       'MITJA<br><span>KURATH</span>',
     );
     expect(text('.hero-route')).toBe('ROUTE / MK—25');
-    expect(text('.hero-altitude')).toBe('ALT.408 M');
+    expect(text('.hero-altitude')).toBe('ALT.670 M');
     expect(el.querySelectorAll('.hero-tagline br')).toHaveLength(2);
     expect(el.querySelector('svg.contour.hero-contour')).not.toBeNull();
   });
