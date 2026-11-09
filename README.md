@@ -68,7 +68,8 @@ Other flags in the environment files:
 
 ```
 src/
-  styles.css                 original index.css (Tailwind import → vendored preflight)
+  styles.css                 original index.css (Tailwind import → vendored preflight),
+                             with tracking/alignment fixes for overlapping type
   styles/preflight.css       Tailwind v4 base reset the design relies on
   styles/a11y.css            accessibility fixes on top of the original (pointer cursor,
                              visible focus incl. clip-path shapes, minimum text sizes)
