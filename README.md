@@ -1,4 +1,4 @@
-# Mitja Kurath – Base Camp (Angular)
+# Mitja Kurath – Base Camp
 
 An Angular 21 rebuild of the React portfolio. It is pixel-faithful to the original, and every
 text, number and link comes from a REST API (see [API.md](API.md)).
