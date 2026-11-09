@@ -169,10 +169,10 @@ blockquote em { color: var(--yellow); }
 .kit-group li { display: grid; grid-template-columns: 24px 1fr auto; padding: 17px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
 .check { color: var(--forest); font-family: var(--mono); }
 
-.experience { background: color-mix(in srgb, var(--paper) 88%, var(--forest)); padding-bottom: 80px; overflow: hidden; overflow: clip; }
+.experience { background: color-mix(in srgb, var(--paper) 88%, var(--forest)); padding-bottom: 0; overflow: hidden; overflow: clip; }
 .experience-head { display: flex; justify-content: space-between; align-items: end; padding: 100px 6% 70px; }
 .experience-head > p { margin-right: 8%; }
-.chart { height: 540px; position: relative; margin: 0 -3.6vw; overflow: hidden; overflow: clip; }
+.chart { height: 525px; /* 55px inset + 470px svg: the mountain fill ends on the section edge */ position: relative; margin: 0 -3.6vw; overflow: hidden; overflow: clip; }
 .chart-grid { position: absolute; inset: 0; background: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 100% 94px, 8.333% 100%; opacity: .45; }
 .chart svg { position: absolute; inset: 55px 0 0; width: 100%; height: 470px; overflow: visible; }
 .mountain-fill { fill: color-mix(in srgb, var(--forest) 18%, transparent); }
@@ -184,7 +184,7 @@ blockquote em { color: var(--yellow); }
 .role small { color: var(--muted); }
 .role-1 { left: 19.17%; top: 404px; }.role-2 { left: 38.33%; top: 326px; }.role-3 { left: 59.17%; top: 242px; }.role-4 { left: 78.5%; top: 133px; }
 .chart-alt { position: absolute; z-index: 1; right: 1%; padding: 2px 5px; font: 500 8px var(--mono); color: var(--muted); }
-.alt-1 { bottom: 92px; }.alt-2 { bottom: 280px; }.alt-3 { bottom: 468px; background: color-mix(in srgb, var(--paper) 88%, var(--forest)); }
+.alt-1 { bottom: 77px; }.alt-2 { bottom: 265px; }.alt-3 { bottom: 453px; background: color-mix(in srgb, var(--paper) 88%, var(--forest)); }
 
 .contact { min-height: 890px; position: relative; padding: 36px 3.6vw 60px; overflow: hidden; overflow: clip; background: var(--yellow); color: #111; }
 .contact-contour { position: absolute; width: 72%; height: 80%; right: -12%; bottom: -20%; color: #111; opacity: .17; transform: rotate(-19deg); }
@@ -278,10 +278,10 @@ footer > a span { color: var(--yellow); font-size: 16px; margin-left: 10px; }
   .kit-group, .kit-group:first-child { padding: 0; border: 0; }
   .kit-title { height: 92px; }
   .kit-group li { padding-inline: 10px; }
-  .experience { padding-bottom: 30px; }
+  .experience { padding-bottom: 0; }
   .experience-head { display: block; padding: 70px 0 50px; }
   .experience-head > p { margin: 30px 0 0 17%; font-size: 14px; }
-  .chart { height: 590px; margin: 0 -20px; overflow: visible; }
+  .chart { height: 525px; margin: 0 -20px; overflow: visible; }
   .chart svg { transform: scaleX(1.6); transform-origin: left; }
   .role { min-width: 90px; }
   .role span { font-size: 12px; }
