@@ -267,6 +267,33 @@ Errors (`application/problem+json`):
 
 ---
 
+## Admin API (`/admin/*`)
+
+Used by the admin panel at `/admin`. Every request needs a Cloudflare Access session: Access
+adds a signed JWT (`Cf-Access-Jwt-Assertion`), which the Worker verifies (issuer, audience,
+signature, optional `ADMIN_EMAILS` allow-list). Without one: `401`. Responses are `no-store`.
+Types: `src/app/core/api/admin.models.ts`.
+
+| Method | Path | Body / response |
+|--------|------|-----------------|
+| GET    | `/admin/session` | `{ email, canRebuild }` |
+| POST   | `/admin/rebuild` | Triggers the Pages deploy hook → `202` (`501` if none configured) |
+| GET    | `/admin/projects` | All projects incl. drafts (`published: boolean`) |
+| POST   | `/admin/projects` | `{ id, name, type, year, stack, description, artVariant, coordinates, url?, published }` → `201` (`409` if the id exists) |
+| PUT    | `/admin/projects/:id` | Same fields without `id` → updated project |
+| PUT    | `/admin/projects/order` | `{ ids: [...] }`, every id exactly once → reordered list |
+| DELETE | `/admin/projects/:id` | `204` |
+| …      | `/admin/skill-groups`, `/admin/roles` | Same five operations. Fields: `{ title, items[] }` / `{ year, title, subtitle, isCurrent }` |
+| GET    | `/admin/messages` | Contact messages, newest first: `{ id, name, email, message, receivedAt, readAt }` |
+| PATCH  | `/admin/messages/:id` | `{ read: boolean }` → updated message |
+| DELETE | `/admin/messages/:id` | `204` |
+
+Ids are slugs (`a-z`, `0-9`, `-`, max. 64) and can't be changed after creation. `order` is
+set by the reorder endpoints; new entries go to the end. Invalid bodies get `400` with an
+`errors` map (see POST /contact-messages).
+
+---
+
 ## Errors
 
 Every non-2xx response should be `application/problem+json`:

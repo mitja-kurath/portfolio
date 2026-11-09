@@ -7,6 +7,8 @@ export interface ProblemDetails {
   status?: number;
   detail?: string;
   instance?: string;
+  /** Extension used by the API for 400 responses: field name → message. */
+  errors?: Record<string, string>;
 }
 
 /** Normalised error surfaced by every API call. */
@@ -19,6 +21,8 @@ export class ApiError extends Error {
     readonly detail: string | null = null,
     readonly type = 'about:blank',
     readonly instance: string | null = null,
+    /** Field errors of a 400 response (field name → message). */
+    readonly errors: Readonly<Record<string, string>> = {},
   ) {
     super(detail ? `${title}: ${detail}` : title);
   }
@@ -60,6 +64,7 @@ export function toApiError(error: unknown): ApiError {
         body.detail ?? null,
         body.type ?? 'about:blank',
         body.instance ?? null,
+        body.errors ?? {},
       );
     }
     return new ApiError(error.status, error.statusText || 'Request failed', error.message);

@@ -1,0 +1,69 @@
+<header class="admin-header">
+  <div class="admin-brand">
+    <span class="admin-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+    <h1>Base Camp <span>/ Admin</span></h1>
+  </div>
+  @if (session.hasValue()) {
+    <div class="admin-header-actions">
+      <span class="admin-muted">{{ session.value().email }}</span>
+      @if (session.value().canRebuild) {
+        <button type="button" (click)="triggerRebuild()" [disabled]="rebuild() === 'running'">
+          {{ rebuild() === 'running' ? 'Starting…' : 'Rebuild site' }}
+        </button>
+      }
+      <a class="admin-button" href="/">View site ↗</a>
+    </div>
+  }
+</header>
+
+@if (rebuild() === 'done') {
+  <p class="admin-notice" role="status">
+    Rebuild started. The pre-rendered pages update in a few minutes (visitors already see changes).
+  </p>
+}
+<app-admin-error [error]="rebuildError()" />
+
+@if (sessionError(); as error) {
+  <section class="admin-gate" aria-labelledby="admin-gate-title">
+    @if (error.status === 401) {
+      <h2 id="admin-gate-title">Sign-in required</h2>
+      <p>
+        The admin API is protected by Cloudflare Access. Open this page on your site's domain so
+        Access can ask you to sign in, then reload.
+      </p>
+      <p class="admin-muted">Local development: set <code>ADMIN_DEV_BYPASS=true</code> in <code>api/.dev.vars</code>.</p>
+    } @else {
+      <h2 id="admin-gate-title">The admin API is not reachable</h2>
+      <app-admin-error [error]="error" />
+      <p class="admin-muted">Locally, start it with <code>cd api &amp;&amp; pnpm dev</code>.</p>
+    }
+    <button type="button" (click)="session.reload()">Try again</button>
+  </section>
+} @else if (session.hasValue()) {
+  <div class="admin-tabs" role="group" aria-label="Admin sections">
+    @for (s of sections; track s.id) {
+      <button type="button" [attr.aria-pressed]="section() === s.id" (click)="section.set(s.id)">
+        {{ s.label }}
+      </button>
+    }
+  </div>
+
+  <main class="admin-panel">
+    @switch (section()) {
+      @case ('projects') {
+        <app-projects-admin />
+      }
+      @case ('skills') {
+        <app-skills-admin />
+      }
+      @case ('roles') {
+        <app-roles-admin />
+      }
+      @case ('messages') {
+        <app-messages-admin />
+      }
+    }
+  </main>
+} @else {
+  <p class="admin-muted" role="status">Checking your session…</p>
+}

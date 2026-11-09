@@ -24,9 +24,9 @@ class Statement {
     return { results: this.db.prepare(this.sql).all(...this.params) as T[], success: true, meta: {} };
   }
 
-  async run(): Promise<{ results: []; success: true; meta: object }> {
-    this.db.prepare(this.sql).run(...this.params);
-    return { results: [], success: true, meta: {} };
+  async run(): Promise<{ results: []; success: true; meta: { changes: number } }> {
+    const { changes } = this.db.prepare(this.sql).run(...this.params);
+    return { results: [], success: true, meta: { changes: Number(changes) } };
   }
 }
 
@@ -37,10 +37,25 @@ export function createTestD1(...sqlScripts: string[]): { d1: D1Database; db: Dat
     db.exec(readFileSync(new URL(file, migrations), 'utf8'));
   }
   for (const script of sqlScripts) db.exec(script);
+  return { d1: wrapD1(db), db };
+}
 
+/** Exposes a node:sqlite database through the D1 interface. */
+export function wrapD1(db: DatabaseSync): D1Database {
   const d1 = {
     prepare: (sql: string) => new Statement(db, sql),
-    batch: (statements: Statement[]) => Promise.all(statements.map((s) => s.all())),
+    // D1 runs a batch as one transaction.
+    batch: async (statements: Statement[]) => {
+      db.exec('BEGIN');
+      try {
+        const results = await Promise.all(statements.map((s) => s.all()));
+        db.exec('COMMIT');
+        return results;
+      } catch (error) {
+        db.exec('ROLLBACK');
+        throw error;
+      }
+    },
   };
-  return { d1: d1 as unknown as D1Database, db };
+  return d1 as unknown as D1Database;
 }

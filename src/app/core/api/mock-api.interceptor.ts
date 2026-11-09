@@ -83,7 +83,8 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
   const { baseUrl, useMock, mockDelayMs } = inject(API_CONFIG);
   const prefix = joinApiUrl(baseUrl, '');
   const path = req.url.split('?')[0];
-  if (!useMock || !path.startsWith(prefix)) {
+  // The admin API has no mock: it always goes to the (local) Worker, see api/README.md.
+  if (!useMock || !path.startsWith(prefix) || path.startsWith(`${prefix}admin/`)) {
     return next(req);
   }
   const endpoint = path.slice(prefix.length).replace(/\/+$/, '');

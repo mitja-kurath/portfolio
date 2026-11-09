@@ -1,0 +1,99 @@
+<div class="admin-section-head">
+  <p>Shown in “Selected waypoints”. Drafts are saved but not shown on the site.</p>
+  <button type="button" class="admin-primary" (click)="openNew()">+ New project</button>
+</div>
+
+@if (collection.loadError(); as error) {
+  <app-admin-error [error]="error" />
+} @else if (collection.loading()) {
+  <p class="admin-muted" role="status">Loading projects…</p>
+} @else {
+  <app-admin-list
+    label="Projects"
+    [rows]="rows()"
+    [selectedId]="editingId()"
+    [busy]="collection.busy()"
+    (edit)="openEdit($event)"
+    (move)="collection.move($event.id, $event.delta)"
+    (remove)="remove($event)"
+  />
+}
+
+@if (editingId() !== undefined) {
+  <form class="admin-editor" appFocusOnOpen [formGroup]="form" (ngSubmit)="submit()" novalidate aria-labelledby="project-editor-title">
+    <div class="admin-editor-head">
+      <h2 id="project-editor-title">{{ editingId() === null ? 'New project' : 'Edit project' }}</h2>
+      <button type="button" (click)="close()">Close</button>
+    </div>
+
+    <div class="admin-editor-body">
+      <div class="admin-fields">
+        <label class="admin-field">
+          <span>Name</span>
+          <input formControlName="name" maxlength="80" [attr.aria-invalid]="invalid('name')" />
+        </label>
+        <label class="admin-field">
+          <span>Id <small>(short name used in the API, can’t change later)</small></span>
+          <input formControlName="id" maxlength="64" [attr.aria-invalid]="invalid('id')" />
+        </label>
+        <div class="admin-field-row">
+          <label class="admin-field">
+            <span>Type</span>
+            <input formControlName="type" maxlength="80" placeholder="Field communication" [attr.aria-invalid]="invalid('type')" />
+          </label>
+          <label class="admin-field admin-field-narrow">
+            <span>Year</span>
+            <input formControlName="year" maxlength="20" placeholder="2026" [attr.aria-invalid]="invalid('year')" />
+          </label>
+        </div>
+        <label class="admin-field">
+          <span>Stack</span>
+          <input formControlName="stack" maxlength="200" placeholder="Angular / TypeScript / Workers" [attr.aria-invalid]="invalid('stack')" />
+        </label>
+        <label class="admin-field">
+          <span>Description</span>
+          <textarea formControlName="description" rows="3" maxlength="600" [attr.aria-invalid]="invalid('description')"></textarea>
+        </label>
+        <label class="admin-field">
+          <span>Link <small>(optional, makes the ↗ clickable)</small></span>
+          <input formControlName="url" type="url" maxlength="500" placeholder="https://…" [attr.aria-invalid]="invalid('url')" />
+        </label>
+        <label class="admin-check">
+          <input type="checkbox" formControlName="published" />
+          <span>Published</span>
+        </label>
+      </div>
+
+      <div class="admin-fields">
+        <label class="admin-field">
+          <span>Artwork</span>
+          <select formControlName="artVariant">
+            @for (art of artVariants; track art.value) {
+              <option [ngValue]="art.value">{{ art.label }}</option>
+            }
+          </select>
+        </label>
+        <div class="admin-field-row">
+          <label class="admin-field">
+            <span>Latitude line</span>
+            <input formControlName="latitude" maxlength="40" placeholder="N 47.3769°" />
+          </label>
+          <label class="admin-field">
+            <span>Longitude line</span>
+            <input formControlName="longitude" maxlength="40" placeholder="E 08.5417°" />
+          </label>
+        </div>
+        <div class="admin-art-preview" aria-hidden="true">
+          <div appProjectArt [variant]="preview().variant" [coordinates]="preview().coordinates" index="00"></div>
+        </div>
+      </div>
+    </div>
+
+    <app-admin-error [error]="collection.writeError()" [labels]="fieldLabels" />
+    <div class="admin-editor-actions">
+      <button type="submit" class="admin-primary" [disabled]="collection.busy()">
+        {{ collection.busy() ? 'Saving…' : 'Save project' }}
+      </button>
+    </div>
+  </form>
+}

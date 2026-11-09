@@ -6,6 +6,9 @@ An Angular 21 rebuild of the React portfolio, pixel-faithful to the original.
   footer) live in `src/app/core/content/site-content.ts`. Edit and redeploy.
 - **Editable content** (projects, skill groups, career roles) comes from the REST API in
   [`api/`](api/README.md), a Cloudflare Worker with a D1 database. Contract: [API.md](API.md).
+- **Admin panel** at `/admin`: edit, reorder and draft that content, and read contact messages.
+  It's protected by Cloudflare Access and lazy-loaded, so visitors never download it. See
+  [api/README.md](api/README.md#admin-panel).
 
 ## Run
 
@@ -86,7 +89,8 @@ src/
   main.server.ts             server entry, used only for build-time pre-rendering
   environments/              apiBaseUrl / useMock / mockDelayMs / persistTheme
   app/
-    app.ts|html              shell: static sections + API sections (loading / error / ready)
+    app.ts                   router shell (routes: '' portfolio, 'admin' lazy)
+    admin/                   admin panel: dashboard, sections, collection state, UI parts
     app.config.ts            HttpClient (fetch) + interceptors, router, hydration
     app.config.server.ts     build-time API (PORTFOLIO_API_URL or mock)
     core/content/            static site texts (site-content.ts) and their types
@@ -95,6 +99,7 @@ src/
     core/mock/mock-data.ts   original projects / skills / roles as API payload (also the DB seed)
     core/util/               pad2/byOrder, nav-counter derivation
     shared/                  contour svg, section label, display heading
+    features/home/           the portfolio page: static sections + API sections
     features/                topbar, hero, work (+card, art, route layout), about,
                              equipment (+kit group), experience, contact (+sign, form),
                              footer, status (loading / error)

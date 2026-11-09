@@ -2,22 +2,22 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { App } from './app';
-import { API_CONFIG } from './core/api/api.config';
-import { apiInterceptor } from './core/api/api.interceptor';
-import { MOCK_PORTFOLIO } from './core/mock/mock-data';
+import { HomePageComponent } from './home-page.component';
+import { API_CONFIG } from '../../core/api/api.config';
+import { apiInterceptor } from '../../core/api/api.interceptor';
+import { MOCK_PORTFOLIO } from '../../core/mock/mock-data';
 
-describe('App when the API fails', () => {
+describe('HomePageComponent when the API fails', () => {
   it('keeps the static sections and replaces only the data sections with a retry block', async () => {
     TestBed.configureTestingModule({
-      imports: [App],
+      imports: [HomePageComponent],
       providers: [
         provideHttpClient(withInterceptors([apiInterceptor])),
         provideHttpClientTesting(),
         { provide: API_CONFIG, useValue: { baseUrl: '/api/v1', useMock: false, mockDelayMs: 0 } },
       ],
     });
-    const fixture = TestBed.createComponent(App);
+    const fixture = TestBed.createComponent(HomePageComponent);
     const el = fixture.nativeElement as HTMLElement;
     const http = TestBed.inject(HttpTestingController);
     fixture.detectChanges();

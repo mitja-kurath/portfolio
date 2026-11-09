@@ -40,3 +40,28 @@ export class ProblemError extends Error {
     super(detail ?? title);
   }
 }
+
+/** Parses the JSON body or throws a 400 problem. */
+export async function readJson(c: Context): Promise<unknown> {
+  try {
+    return await c.req.json();
+  } catch {
+    throw new ProblemError(400, 'Bad Request', 'The body must be JSON.');
+  }
+}
+
+/** 400 problem+json with an `errors` map (field → message). */
+export function invalid(c: Context, errors: Record<string, string>): Response {
+  return c.body(
+    JSON.stringify({
+      type: 'about:blank',
+      title: 'Bad Request',
+      status: 400,
+      detail: 'Some fields are missing or invalid.',
+      instance: c.req.path,
+      errors,
+    }),
+    400,
+    { 'Content-Type': 'application/problem+json', 'Cache-Control': 'no-store' },
+  );
+}

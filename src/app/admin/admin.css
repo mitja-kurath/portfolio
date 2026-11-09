@@ -1,0 +1,92 @@
+/* Admin panel. Uses the site's tokens (paper / ink / mono), scoped under .admin. */
+.admin { min-height: 100vh; padding: 28px clamp(16px, 4vw, 56px) 80px; background: var(--paper); color: var(--ink); font: 400 14px/1.5 var(--sans); }
+.admin, .admin * { cursor: auto; }
+.admin button:not(:disabled), .admin a, .admin label, .admin select, .admin input[type='checkbox'] { cursor: pointer; }
+.admin input:not([type='checkbox']), .admin textarea { cursor: text; }
+.admin button:disabled { cursor: not-allowed; opacity: .55; }
+.admin :focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.admin code { font: 500 12px var(--mono); }
+
+.admin-header { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; padding-bottom: 18px; border-bottom: 1px solid var(--ink); }
+.admin-brand { display: flex; gap: 14px; align-items: center; }
+.admin-brand h1 { font: 800 26px var(--sans); letter-spacing: -.03em; }
+.admin-brand h1 span { color: var(--muted); font-weight: 500; }
+.admin-mark { display: flex; width: 38px; height: 12px; border: 1px solid var(--ink); }
+.admin-mark i { flex: 1; background: var(--red); }
+.admin-mark i:nth-child(2) { background: var(--paper); }
+.admin-header-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.admin-muted { color: var(--muted); font: 500 12px/1.5 var(--mono); }
+.admin-notice { margin-top: 16px; padding: 10px 14px; border-left: 4px solid var(--forest); background: var(--soft); font: 500 12px/1.5 var(--mono); }
+
+/* Buttons */
+.admin button, .admin-button { display: inline-flex; gap: 8px; align-items: center; min-height: 36px; padding: 6px 14px; border: 1px solid var(--ink); background: transparent; color: var(--ink); font: 600 11px var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+.admin button:hover:not(:disabled), .admin-button:hover { background: var(--soft); }
+.admin .admin-primary { background: var(--ink); color: var(--paper); }
+.admin .admin-primary:hover:not(:disabled) { background: var(--ink); transform: translateX(3px); }
+.admin .admin-danger { border-color: var(--red); background: var(--red); color: #111; }
+.admin .admin-danger:hover:not(:disabled) { background: var(--red); }
+.admin .admin-icon { justify-content: center; width: 36px; padding: 0; font-size: 15px; }
+
+/* Section switcher */
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 0; margin: 26px 0 0; border-bottom: 1px solid var(--line); }
+.admin .admin-tabs button { min-height: 44px; border: 0; border-bottom: 3px solid transparent; font-size: 12px; }
+.admin .admin-tabs button[aria-pressed='true'] { border-bottom-color: var(--red); background: transparent; }
+.admin-panel { display: block; max-width: 1080px; padding-top: 24px; }
+
+.admin-section-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.admin-section-head p { max-width: 620px; color: var(--muted); }
+
+/* Lists */
+.admin-list, .admin-messages { display: grid; gap: 0; border-top: 1px solid var(--ink); list-style: none; }
+.admin-list li, .admin-message { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.admin-list li.is-selected { box-shadow: inset 4px 0 0 var(--red); padding-left: 14px; }
+.admin-list li.is-muted .admin-row-text strong { color: var(--muted); }
+.admin-row-text { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; min-width: 0; }
+.admin-row-text strong { font-size: 17px; letter-spacing: -.01em; }
+.admin-row-text small { color: var(--muted); font: 500 12px var(--mono); }
+.admin-row-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.admin-badge { padding: 1px 6px; background: var(--yellow); color: #111; font: 700 10px var(--mono); letter-spacing: .06em; }
+.admin-empty { color: var(--muted); font: 500 12px var(--mono); }
+
+/* Editor */
+.admin-editor { margin-top: 28px; padding: 20px; border: 1px solid var(--ink); background: color-mix(in srgb, var(--soft) 45%, var(--paper)); }
+.admin-editor-head { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.admin-editor-head h2 { font: 800 22px var(--sans); letter-spacing: -.02em; }
+.admin-editor-body { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; }
+.admin-fields { display: grid; gap: 14px; align-content: start; }
+.admin-fields-single { max-width: 620px; }
+.admin-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.admin-field-row:has(.admin-field-narrow) { grid-template-columns: 1fr 120px; }
+.admin-field { display: grid; gap: 5px; }
+.admin-field > span { font: 600 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.admin-field > span small { color: var(--muted); font-weight: 500; text-transform: none; letter-spacing: 0; }
+.admin-field input, .admin-field textarea, .admin-field select { width: 100%; min-height: 40px; padding: 8px 10px; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); font: 400 15px/1.4 var(--sans); }
+.admin-field textarea { resize: vertical; }
+.admin-field input:disabled { border-style: dashed; background: var(--soft); color: var(--muted); }
+.admin-field [aria-invalid='true'] { border-color: var(--red); box-shadow: inset 0 0 0 1px var(--red); }
+.admin-check { display: flex; gap: 10px; align-items: center; font: 600 12px var(--mono); }
+.admin-check input { width: 18px; height: 18px; accent-color: var(--ink); }
+.admin-art-preview { position: relative; height: 230px; overflow: hidden; border: 1px solid var(--ink); }
+.admin-art-preview .project-art { min-height: 0; height: 100%; }
+.admin-editor-actions { display: flex; justify-content: flex-end; margin-top: 18px; }
+
+.admin-error { margin: 14px 0; padding: 12px 14px; border: 1px solid var(--red); border-left-width: 5px; background: color-mix(in srgb, var(--red) 8%, var(--paper)); }
+.admin-error p, .admin-error ul { margin-top: 4px; font: 500 12px/1.5 var(--mono); }
+.admin-error ul { padding-left: 18px; }
+
+/* Messages */
+.admin-message { display: grid; justify-content: stretch; }
+.admin-message.is-unread { box-shadow: inset 4px 0 0 var(--yellow); padding-left: 14px; }
+.admin-message-head { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; }
+.admin-message-head a { text-decoration: underline; }
+.admin-message-head time { color: var(--muted); font: 500 12px var(--mono); }
+.admin-message-body { max-width: 760px; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.admin-gate { max-width: 620px; margin-top: 40px; display: grid; gap: 12px; justify-items: start; }
+.admin-gate h2 { font: 800 30px var(--sans); letter-spacing: -.03em; }
+
+@media (max-width: 800px) {
+  .admin-editor-body, .admin-field-row, .admin-field-row:has(.admin-field-narrow) { grid-template-columns: 1fr; }
+  .admin-editor { padding: 16px; }
+}

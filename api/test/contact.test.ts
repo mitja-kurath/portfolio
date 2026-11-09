@@ -68,6 +68,7 @@ describe('POST /contact-messages', () => {
     expect(body.id).toMatch(/^[0-9a-f-]{36}$/);
     expect(Date.parse(body.receivedAt)).not.toBeNaN();
     expect(res.headers.get('location')).toBe(`/api/v1/contact-messages/${body.id}`);
+    expect(res.headers.get('cache-control')).toBe('no-store');
     expect(stored()).toEqual([
       { name: 'Ada Lovelace', email: 'ada@example.com', message: 'Let’s build something together.' },
     ]);

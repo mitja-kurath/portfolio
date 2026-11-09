@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import type { ContactMessageResponse } from '../../../src/app/core/api/api.models';
 import type { AppEnv } from '../env';
-import { ProblemError, problem } from '../problem';
+import { ProblemError, invalid, problem, readJson } from '../problem';
 import { validateContactMessage } from './contact.validation';
 import { notifyOwner } from './notify';
 import { verifyTurnstile } from './turnstile';
@@ -24,24 +24,8 @@ export const contactRoutes = new Hono<AppEnv>().post(
       }
     }
 
-    const body: unknown = await c.req.json().catch(() => {
-      throw new ProblemError(400, 'Bad Request', 'The body must be JSON.');
-    });
-    const result = validateContactMessage(body);
-    if (!result.ok) {
-      return c.body(
-        JSON.stringify({
-          type: 'about:blank',
-          title: 'Bad Request',
-          status: 400,
-          detail: 'Some fields are missing or invalid.',
-          instance: c.req.path,
-          errors: result.errors,
-        }),
-        400,
-        { 'Content-Type': 'application/problem+json', 'Cache-Control': 'no-store' },
-      );
-    }
+    const result = validateContactMessage(await readJson(c));
+    if (!result.ok) return invalid(c, result.errors);
 
     const secret = c.env.TURNSTILE_SECRET_KEY;
     if (!secret) {

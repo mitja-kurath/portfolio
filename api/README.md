@@ -1,7 +1,8 @@
 # Portfolio API (Cloudflare Worker)
 
 Serves the editable portfolio content (projects, skill groups, career roles) from a
-Cloudflare D1 database, and receives contact form messages. Built with [Hono](https://hono.dev). The contract is documented in
+Cloudflare D1 database, receives contact form messages, and powers the admin panel
+(`/admin` on the site). Built with [Hono](https://hono.dev). The contract is documented in
 [../API.md](../API.md); the TypeScript types are shared with the frontend
 (`src/app/core/api/api.models.ts`).
 
@@ -36,6 +37,7 @@ pnpm typecheck
 | GET    | `/api/v1/skills`     | skill groups, by `order` |
 | GET    | `/api/v1/experience` | `{ roles }`, by `order` |
 | POST   | `/api/v1/contact-messages` | stores a message, emails you (see below) |
+| *      | `/api/v1/admin/*` | admin panel API, behind Cloudflare Access (see [API.md](../API.md#admin-api-admin)) |
 
 - Responses are cacheable for 60 s (`stale-while-revalidate` 10 min) and carry an `ETag`.
 - Errors are `application/problem+json` (RFC 7807), never cached.
@@ -53,6 +55,34 @@ pnpm typecheck
 
 The content tables have `sort_order` (→ `order` in the API). Schema changes go in a new numbered
 migration file (`0002_….sql`); never edit one that has already been applied remotely.
+
+## Admin panel
+
+The site's `/admin` page edits projects, skill groups and roles (create, edit, reorder,
+drafts) and lists contact messages. It talks to `/api/v1/admin/*`.
+
+**Locally:** `.dev.vars` sets `ADMIN_DEV_BYPASS=true`, which signs you in as `dev@localhost`
+for requests to localhost only. Run `pnpm dev` here and `pnpm start` in the repo root, then
+open http://localhost:4200/admin. The admin API has no mock and always uses the local Worker.
+
+**Production: Cloudflare Access.** The admin needs the API on the site's domain (Worker route
+`kurath.dev/api/*`, see below). Access works with cookies, so a separate workers.dev domain
+won't do.
+
+1. Cloudflare dashboard → Zero Trust → Access → Applications → Add → Self-hosted.
+   - Application domain: `kurath.dev`, paths `admin` **and** `api/v1/admin`.
+   - Policy: Allow → Emails → your email address.
+2. Copy the application's **AUD tag**. Your team domain is shown under Settings → Custom
+   pages, e.g. `https://your-team.cloudflareaccess.com`.
+3. Set both in `wrangler.jsonc` (`ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`). Optionally set
+   `ADMIN_EMAILS` as a second check.
+4. Optional "Rebuild site" button: Pages → Settings → Builds → Deploy hooks → add one, then
+   `pnpm exec wrangler secret put DEPLOY_HOOK_URL`. This only exists for Git-connected Pages
+   projects. Without it, visitors still see changes right away, and crawlers see them after
+   the next deploy.
+
+The Worker verifies Access's signed JWT on every admin request (signature, issuer, audience).
+Never set `ADMIN_DEV_BYPASS` in production. It only works for localhost anyway.
 
 ## Contact form
 

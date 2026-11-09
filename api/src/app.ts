@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { etag } from 'hono/etag';
+import { adminRoutes } from './admin/admin.routes';
 import { contactRoutes } from './contact/contact.routes';
 import { contentRoutes } from './content/content.routes';
 import type { AppEnv } from './env';
@@ -11,7 +12,7 @@ export const app = new Hono<AppEnv>().basePath('/api/v1');
 app.use(
   cors({
     origin: (origin, c) => (allowedOrigins(c.env.ALLOWED_ORIGINS).includes(origin) ? origin : null),
-    allowMethods: ['GET', 'POST', 'OPTIONS'],
+    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Accept'],
     maxAge: 86400,
   }),
@@ -20,6 +21,7 @@ app.use(etag());
 
 app.route('/', contentRoutes);
 app.route('/', contactRoutes);
+app.route('/admin', adminRoutes);
 
 app.notFound((c) => problem(c, 404, 'Not Found', `No endpoint at ${c.req.method} ${c.req.path}.`));
 

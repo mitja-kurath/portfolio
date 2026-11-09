@@ -18,9 +18,13 @@
     "ALLOWED_ORIGINS": "http://localhost:4200,https://kurath.dev,https://www.kurath.dev",
     // Contact form email notification (sender must be on a domain verified at Resend).
     "CONTACT_TO_EMAIL": "",
-    "CONTACT_FROM_EMAIL": ""
+    "CONTACT_FROM_EMAIL": "",
+    // Admin API (Cloudflare Access). See api/README.md → Admin panel.
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": "",
+    "ADMIN_EMAILS": ""
   },
-  // Secrets (not in this file): TURNSTILE_SECRET_KEY, RESEND_API_KEY.
+  // Secrets (not in this file): TURNSTILE_SECRET_KEY, RESEND_API_KEY, DEPLOY_HOOK_URL.
   // Production: `pnpm exec wrangler secret put <NAME>`. Local: api/.dev.vars (see .dev.vars.example).
   "ratelimits": [
     // At most 5 contact form posts per IP per minute.
