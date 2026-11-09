@@ -1,0 +1,46 @@
+/*
+  Accessibility fixes layered on top of the original stylesheet (styles.css stays verbatim).
+  Loaded after styles.css via angular.json, so equal-specificity rules here win.
+*/
+
+/* 1. Pointer on interactive elements. The original `* { cursor: crosshair; }` also hit links
+      and buttons, so nothing looked clickable. Children are listed too: they match `*` directly
+      and would otherwise show the crosshair again. */
+a, a *, button, button *, label, summary { cursor: pointer; }
+input, textarea { cursor: text; }
+button:disabled, button:disabled * { cursor: not-allowed; }
+
+/* 2. Visible keyboard focus. Red on paper/ink/dark-paper meets the 3:1 non-text contrast
+      minimum; on the yellow contact section, ink is used instead. */
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+.contact :focus-visible { outline-color: #111; }
+
+/* clip-path cuts off anything outside the shape, an outline included. Draw it *inside*
+   the arrow shapes and repeat the hover motion so focus is obvious. */
+.direction-link:focus-visible,
+.sign:focus-visible { outline: 2px solid currentColor; outline-offset: -6px; }
+.direction-link:focus-visible { transform: translateY(4px); }
+.sign:focus-visible { transform: translateX(8px); }
+
+/* 3. Minimum text sizes. Informational text at 6–8px was below comfortable reading size.
+      Raised to 10px (superscripts and text in tight shapes to 8–9px). */
+nav sup { font-size: 9px; }
+.art-coordinates { font-size: 10px; }
+.project-meta,
+.project-stack { font-size: 10px; }
+.route-node { font-size: 10px; }
+.kit-title span,
+.kit-title b,
+.kit-group li small { font-size: 10px; }
+.chart-alt { font-size: 10px; }
+.scroll-note { font-size: 10px; }
+.portrait-label { font-size: 10px; }
+.portrait-stamp small { font-size: 8px; }
+.sign small { font-size: 9px; }
+footer { font-size: 10px; }
+.footer-time strong small { font-size: 10px; }
+
+@media (max-width: 800px) {
+  /* On mobile the CTA is a plain circle without clip-path, so a normal outline fits. */
+  .direction-link:focus-visible { outline-offset: 3px; outline-color: var(--ink); }
+}

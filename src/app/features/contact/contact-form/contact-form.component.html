@@ -1,0 +1,48 @@
+@let c = config();
+<form class="contact-form" [formGroup]="form" (ngSubmit)="submit()" [attr.aria-busy]="state() === 'sending'" novalidate>
+  <p class="contact-form-title" id="contact-form-title">{{ c.title }}</p>
+
+  <label for="contact-name">{{ c.nameLabel }}</label>
+  <input
+    id="contact-name"
+    type="text"
+    formControlName="name"
+    autocomplete="name"
+    required
+    [attr.aria-invalid]="invalid('name')"
+  />
+
+  <label for="contact-email">{{ c.emailLabel }}</label>
+  <input
+    id="contact-email"
+    type="email"
+    formControlName="email"
+    autocomplete="email"
+    required
+    [attr.aria-invalid]="invalid('email')"
+  />
+
+  <label for="contact-message">{{ c.messageLabel }}</label>
+  <textarea
+    id="contact-message"
+    rows="4"
+    formControlName="message"
+    required
+    [attr.aria-invalid]="invalid('message')"
+  ></textarea>
+
+  <button type="submit" [disabled]="state() === 'sending'">
+    {{ state() === 'sending' ? c.sendingLabel : c.submitLabel }} <b aria-hidden="true">→</b>
+  </button>
+
+  <p class="contact-form-status" role="status" aria-live="polite">
+    @switch (state()) {
+      @case ('sent') {
+        {{ c.successMessage }}
+      }
+      @case ('error') {
+        {{ c.errorMessage }}
+      }
+    }
+  </p>
+</form>

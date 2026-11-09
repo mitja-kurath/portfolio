@@ -1,0 +1,18 @@
+@let f = site().footer;
+<div class="footer-time">
+  <span>{{ site().footerCity }}</span>
+  <strong>{{ time() }} <small>{{ site().timezoneLabel }}</small></strong>
+  <span>{{ f.localTimeLabel }}</span>
+</div>
+<div class="footer-compass">
+  <span>{{ f.compassNorth }}</span>
+  <i>↗</i>
+  <small>
+    @for (line of f.compassLabelLines; track $index) {
+      @if (!$first) {<br />}
+      {{ line }}
+    }
+  </small>
+</div>
+<p>{{ f.credit }}<br />© {{ year }} {{ f.ownerName }}</p>
+<a [href]="f.backToTopHref">{{ f.backToTopLabel }} <span>↑</span></a>

@@ -1,0 +1,33 @@
+<a href="#base-camp" class="brand" [attr.aria-label]="site().person.ariaHomeLabel">
+  <span class="brand-compass" aria-hidden="true">↗</span>
+  <span>{{ site().person.initials }}<br />{{ site().brandCoordinates }}</span>
+</a>
+<nav
+  id="main-navigation"
+  [class.nav-open]="menuOpen()"
+  [attr.inert]="navInert() ? '' : null"
+  aria-label="Main navigation"
+>
+  @for (link of links(); track link.href) {
+    <a [href]="link.href" (click)="closeMenu()">{{ link.label }} <sup>{{ link.badge }}</sup></a>
+  }
+</nav>
+<div class="top-actions">
+  <button type="button" class="theme-toggle" (click)="toggleTheme()" [attr.aria-label]="themeLabel()">
+    <span class="theme-sun" aria-hidden="true">☼</span>
+    <span class="theme-track" aria-hidden="true"><i></i></span>
+    <span aria-hidden="true">◐</span>
+  </button>
+  <button
+    #menuButton
+    type="button"
+    class="menu-toggle"
+    (click)="toggleMenu()"
+    [attr.aria-expanded]="menuOpen()"
+    aria-controls="main-navigation"
+    aria-label="Toggle navigation"
+  >
+    <i></i>
+    <i></i>
+  </button>
+</div>

@@ -1,0 +1,32 @@
+@let s = section();
+<div appSectionLabel [number]="s.number" [title]="s.title" [elevation]="s.elevation"></div>
+<div class="about-grid">
+  <div class="portrait">
+    <div class="portrait-horizon"></div>
+    <span class="portrait-label">{{ s.portraitLabel }}</span>
+    <span class="portrait-mk">{{ initials() }}</span>
+    <div class="portrait-stamp">
+      @for (line of s.stampLines; track $index) {
+        @if (!$first) {<br />}
+        {{ line }}
+      }
+      <br />
+      <small>{{ s.stampSmall }}</small>
+    </div>
+  </div>
+  <div class="about-copy">
+    <p class="eyebrow">
+      @for (line of s.eyebrowLines; track $index) {
+        @if (!$first) {<br />}
+        {{ line }}
+      }
+    </p>
+    <blockquote>“{{ s.quote.before }} <em>{{ s.quote.emphasis }}</em>”</blockquote>
+    <div class="about-columns">
+      @for (paragraph of s.paragraphs; track $index) {
+        <p>{{ paragraph }}</p>
+      }
+    </div>
+    <a [href]="s.linkHref" class="text-link">{{ s.linkLabel }} <span>↗</span></a>
+  </div>
+</div>

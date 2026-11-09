@@ -1,0 +1,30 @@
+@let hero = site().hero;
+<svg appContour class="hero-contour"></svg>
+<div class="hero-kicker">
+  <span>{{ hero.kicker }}</span>
+  <span>
+    @for (line of hero.coordinates; track $index) {
+      @if (!$first) {<br />}
+      {{ line }}
+    }
+  </span>
+</div>
+<div class="hero-title-wrap">
+  <p class="hero-route">{{ hero.routeCode }}</p>
+  <h1>{{ site().person.firstName }}<br /><span>{{ site().person.lastName }}</span></h1>
+  <div class="hero-altitude">{{ hero.altitudeLabel }}<br /><strong>{{ hero.altitude }}</strong> M</div>
+</div>
+<div class="hero-bottom">
+  <p class="hero-tagline">
+    @for (line of hero.taglineLines; track $index) {
+      @if (!$first) {<br />}
+      {{ line }}
+    }
+  </p>
+  <a class="direction-link" [href]="hero.ctaHref">
+    <span>{{ hero.ctaLabel }}</span>
+    <b>↓</b>
+  </a>
+
+</div>
+<div class="scroll-note">{{ hero.scrollNote }} <span>↓</span></div>

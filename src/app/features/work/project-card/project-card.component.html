@@ -1,0 +1,21 @@
+@let p = card().project;
+<div class="project-image">
+  <div appProjectArt [variant]="p.artVariant" [coordinates]="p.coordinates" [index]="card().position"></div>
+</div>
+<div class="project-copy">
+  <div class="project-meta">
+    <span>{{ card().position }} / {{ p.type }}</span>
+    <span>{{ p.year }}</span>
+  </div>
+  <h3>{{ p.name }}</h3>
+  <p>{{ p.description }}</p>
+  <div class="project-stack">
+    <span>{{ p.stack }}</span>
+    @if (p.url) {
+      <a [href]="p.url" target="_blank" rel="noreferrer" [attr.aria-label]="'Open ' + p.name"><b>↗</b></a>
+    } @else {
+      <b>↗</b>
+    }
+  </div>
+</div>
+<span class="route-node">{{ card().position }}</span>

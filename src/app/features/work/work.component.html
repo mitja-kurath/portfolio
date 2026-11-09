@@ -1,0 +1,16 @@
+@let s = section();
+<div appSectionLabel [number]="s.number" [title]="s.title" [elevation]="s.elevation"></div>
+<div class="work-heading">
+  <h2 appDisplayHeading [lines]="s.headingLines" [emphasis]="s.emphasis" [inline]="!!s.emphasisInline"></h2>
+  <p>{{ s.intro }}</p>
+</div>
+
+<div class="route-map" [style.height.px]="mapHeight()">
+  <svg class="route-line" [attr.viewBox]="layout().viewBox" preserveAspectRatio="none" aria-hidden="true">
+    <path class="route-shadow" [attr.d]="layout().path" />
+    <path class="route-dash" [attr.d]="layout().path" />
+  </svg>
+  @for (card of cards(); track card.project.id) {
+    <article appProjectCard [card]="card" [class]="card.layoutClass" [style.top.px]="card.top"></article>
+  }
+</div>

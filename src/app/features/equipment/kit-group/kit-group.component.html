@@ -1,0 +1,14 @@
+<div class="kit-title">
+  <span>{{ index() }}</span>
+  <h3>{{ group().title }}</h3>
+  <b>{{ count() }}</b>
+</div>
+<ul>
+  @for (item of items(); track item.index) {
+    <li>
+      <span class="check">✓</span>
+      <span>{{ item.label }}</span>
+      <small>{{ item.index }}</small>
+    </li>
+  }
+</ul>

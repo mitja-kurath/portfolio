@@ -1,0 +1,35 @@
+@let s = section();
+<div appSectionLabel [number]="s.number" [title]="s.title" [elevation]="s.elevation"></div>
+<div class="experience-head">
+  <h2 appDisplayHeading [lines]="s.headingLines" [emphasis]="s.emphasis" [inline]="!!s.emphasisInline"></h2>
+  <p>
+    @for (line of s.introLines; track $index) {
+      @if (!$first) {<br />}
+      {{ line }}
+    }
+  </p>
+</div>
+<div class="chart">
+  <div class="chart-grid"></div>
+  <svg viewBox="0 0 1200 470" preserveAspectRatio="none" aria-hidden="true">
+    <path
+      class="mountain-fill"
+      d="M0 470L0 410C100 410 130 355 230 366s120-95 230-78 145-100 250-84 127-137 232-109 150-75 268-95v470z"
+    />
+    <path
+      class="mountain-line"
+      d="M0 410C100 410 130 355 230 366s120-95 230-78 145-100 250-84 127-137 232-109 150-75 268-95"
+    />
+  </svg>
+  @for (role of roleViews(); track role.id) {
+    <div class="role" [class]="role.slotClass" [style.left]="role.left" [style.top]="role.top">
+      <i></i>
+      <b>{{ role.yearLabel }}</b>
+      <span>{{ role.title }}</span>
+      <small>{{ role.subtitle }}</small>
+    </div>
+  }
+  @for (altitude of s.altitudes; track $index) {
+    <span class="chart-alt" [class]="'alt-' + ($index + 1)">{{ altitude }}</span>
+  }
+</div>

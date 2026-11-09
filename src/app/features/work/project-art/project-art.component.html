@@ -1,0 +1,21 @@
+<span class="art-coordinates">
+  @for (line of coordinates(); track $index) {
+    @if (!$first) {<br />}
+    {{ line }}
+  }
+</span>
+<span class="art-index">{{ index() }}</span>
+@switch (variant()) {
+  @case (1) {
+    <div class="signal-rings"><i></i><i></i><i></i></div>
+  }
+  @case (2) {
+    <div class="needle-grid"></div>
+  }
+  @case (3) {
+    <svg appContour></svg>
+  }
+  @case (4) {
+    <div class="fire-symbol"><i></i><i></i><i></i></div>
+  }
+}
