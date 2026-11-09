@@ -180,7 +180,7 @@ describe('HomePageComponent (rendered against the mock API)', () => {
       'sign sign-github',
       'sign sign-linkedin',
     ]);
-    expect(signs[0].getAttribute('href')).toBe('mailto:hello@mitjakurath.ch');
+    expect(signs[0].getAttribute('href')).toBe('mailto:hi@mitjakurath.ch');
     expect(signs[0].hasAttribute('target')).toBe(false);
     expect(signs[1].getAttribute('target')).toBe('_blank');
     expect(signs[1].getAttribute('rel')).toBe('noreferrer');
@@ -207,8 +207,8 @@ describe('HomePageComponent (rendered against the mock API)', () => {
     expect(jsonLd).toMatchObject({
       '@type': 'Person',
       name: 'Mitja Kurath',
-      email: 'hello@mitjakurath.ch',
-      sameAs: ['https://github.com/mitja-kurath', 'https://linkedin.com/'],
+      email: 'hi@mitjakurath.ch',
+      sameAs: ['https://github.com/mitja-kurath', 'https://www.linkedin.com/in/mitja-kurath-b40827323/'],
     });
   });
 

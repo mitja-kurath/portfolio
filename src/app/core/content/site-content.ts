@@ -103,7 +103,7 @@ export const SITE_CONTENT: SiteContent = {
     {
       kind: 'email',
       label: 'Email',
-      href: 'mailto:hello@mitjakurath.ch',
+      href: 'mailto:hi@mitjakurath.ch',
       hint: '0.0 KM · NOW',
       external: false,
       direction: 'right',
@@ -119,7 +119,7 @@ export const SITE_CONTENT: SiteContent = {
     {
       kind: 'linkedin',
       label: 'LinkedIn',
-      href: 'https://linkedin.com/',
+      href: 'https://www.linkedin.com/in/mitja-kurath-b40827323/',
       hint: '2 MIN · NORTH',
       external: true,
       direction: 'right',
