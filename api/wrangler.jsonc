@@ -17,7 +17,7 @@
 	],
 	"vars": {
 		// Browser origins allowed to call the API (CORS). Add your Pages domain(s) here.
-		"ALLOWED_ORIGINS": "http://localhost:4200,https://kurath.dev,https://www.kurath.dev",
+		"ALLOWED_ORIGINS": "http://localhost:4200,https://mitjakurath.ch,https://portfolio-76o.pages.dev",
 		// Contact form email notification (sender must be on a domain verified at Resend).
 		"CONTACT_TO_EMAIL": "",
 		"CONTACT_FROM_EMAIL": "",
@@ -39,6 +39,9 @@
 			}
 		}
 	],
+	// Serve the API on the site's own domain: same origin for the site, and Cloudflare Access
+	// can protect /api/v1/admin together with /admin.
+	"routes": [{ "pattern": "mitjakurath.ch/api/*", "zone_name": "mitjakurath.ch" }],
 	// `ng serve` proxies /api to localhost:8080 (proxy.conf.json), so the local API listens there.
 	"dev": {
 		"port": 8080

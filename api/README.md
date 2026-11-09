@@ -66,11 +66,11 @@ for requests to localhost only. Run `pnpm dev` here and `pnpm start` in the repo
 open http://localhost:4200/admin. The admin API has no mock and always uses the local Worker.
 
 **Production: Cloudflare Access.** The admin needs the API on the site's domain (Worker route
-`kurath.dev/api/*`, see below). Access works with cookies, so a separate workers.dev domain
+`mitjakurath.ch/api/*`, see below). Access works with cookies, so a separate workers.dev domain
 won't do.
 
 1. Cloudflare dashboard → Zero Trust → Access → Applications → Add → Self-hosted.
-   - Application domain: `kurath.dev`, paths `admin` **and** `api/v1/admin`.
+   - Application domain: `mitjakurath.ch`, paths `admin` **and** `api/v1/admin`.
    - Policy: Allow → Emails → your email address.
 2. Copy the application's **AUD tag**. Your team domain is shown under Settings → Custom
    pages, e.g. `https://your-team.cloudflareaccess.com`.
@@ -100,7 +100,7 @@ Setup for production:
 2. **Email (optional):** create a Resend account and verify your domain.
    - `pnpm exec wrangler secret put RESEND_API_KEY`
    - Set `CONTACT_TO_EMAIL` (your inbox) and `CONTACT_FROM_EMAIL` (e.g.
-     `Portfolio <contact@kurath.dev>`) in `wrangler.jsonc`.
+     `Portfolio <contact@mitjakurath.ch>`) in `wrangler.jsonc`.
    - Without these, messages are only stored. The admin panel (next step) will list them.
 3. Deploy the Worker first, then the site with the form enabled.
 
@@ -122,7 +122,7 @@ pnpm run deploy                             # → https://portfolio-api.<account
 
 Then point the site at it, either:
 
-- **Same domain (recommended, no CORS):** add a Worker route such as `kurath.dev/api/*` in the
+- **Same domain (recommended, no CORS):** add a Worker route such as `mitjakurath.ch/api/*` in the
   Cloudflare dashboard (Workers → portfolio-api → Settings → Domains & Routes). The site's
   default `apiBaseUrl: '/api/v1'` then works as is.
 - **workers.dev URL:** set `apiBaseUrl` in `src/environments/environment.prod.ts` to

@@ -11,7 +11,7 @@ export interface Bindings {
   RESEND_API_KEY?: string;
   /** Where new messages are emailed, e.g. `you@example.com`. */
   CONTACT_TO_EMAIL?: string;
-  /** Sender on a domain verified at Resend, e.g. `Portfolio <contact@kurath.dev>`. */
+  /** Sender on a domain verified at Resend, e.g. `Portfolio <contact@mitjakurath.ch>`. */
   CONTACT_FROM_EMAIL?: string;
   /** Cloudflare Access team domain, e.g. `https://your-team.cloudflareaccess.com`. */
   ACCESS_TEAM_DOMAIN?: string;

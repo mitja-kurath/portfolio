@@ -7,9 +7,8 @@ export const environment: AppEnvironment = {
   mockDelayMs: 0,
   persistTheme: false,
   contactForm: {
-    // Enable after deploying the API with a TURNSTILE_SECRET_KEY (see api/README.md),
-    // and put the site key of your Turnstile widget here.
-    enabled: false,
-    turnstileSiteKey: '',
+    // Needs TURNSTILE_SECRET_KEY on the Worker (see api/README.md → Contact form).
+    enabled: true,
+    turnstileSiteKey: '0x4AAAAAAF6DE1WBRFIMK3Rm',
   },
 };
