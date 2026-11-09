@@ -6,13 +6,16 @@ import {
   PLATFORM_ID,
   ViewEncapsulation,
   afterNextRender,
+  computed,
   effect,
   inject,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { SITE_CONTENT } from './core/content/site-content';
 import { PortfolioStore } from './core/state/portfolio.store';
 import { SeoService } from './core/state/seo.service';
 import { ThemeService } from './core/state/theme.service';
+import { NavCounts, deriveNavCounts } from './core/util/nav-counters';
 import { AboutComponent } from './features/about/about.component';
 import { ContactComponent } from './features/contact/contact.component';
 import { EquipmentComponent } from './features/equipment/equipment.component';
@@ -44,6 +47,10 @@ import { WorkComponent } from './features/work/work.component';
 })
 export class App {
   protected readonly store = inject(PortfolioStore);
+  protected readonly site = SITE_CONTENT;
+  protected readonly navCounts = computed<NavCounts>(() =>
+    deriveNavCounts(this.store.projects(), this.store.skills(), !!this.site.sections.about),
+  );
 
   private readonly seo = inject(SeoService);
   private readonly document = inject(DOCUMENT);
@@ -55,12 +62,7 @@ export class App {
     // Instantiating the service applies data-theme="light" on <html>.
     inject(ThemeService);
 
-    effect(() => {
-      const site = this.store.site();
-      if (site) {
-        this.seo.apply(site);
-      }
-    });
+    this.seo.apply(this.site);
 
     effect(() => {
       if (this.store.status() !== 'ready' || this.firstReadyHandled || !this.isBrowser) {

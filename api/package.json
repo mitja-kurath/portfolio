@@ -1,0 +1,34 @@
+{
+  "name": "portfolio-api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:seed:generate": "node scripts/generate-seed.mjs",
+    "db:migrate:local": "wrangler d1 migrations apply portfolio --local",
+    "db:migrate:remote": "wrangler d1 migrations apply portfolio --remote",
+    "db:seed:local": "node scripts/generate-seed.mjs && wrangler d1 execute portfolio --local --file seed/seed.sql",
+    "db:seed:remote": "node scripts/generate-seed.mjs && wrangler d1 execute portfolio --remote --file seed/seed.sql",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "packageManager": "pnpm@10.30.0",
+  "dependencies": {
+    "hono": "^4.13.17"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261109.1",
+    "@types/node": "^22.20.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0",
+    "wrangler": "^4.158.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "workerd"
+    ]
+  }
+}

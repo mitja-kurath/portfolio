@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
-import { AboutSectionDto } from '../../core/api/api.models';
+import { AboutSection } from '../../core/content/site-content.model';
 import { SectionLabelComponent } from '../../shared/section-label/section-label.component';
 
 @Component({
@@ -11,6 +11,6 @@ import { SectionLabelComponent } from '../../shared/section-label/section-label.
   host: { class: 'about section-wrap', id: 'about' },
 })
 export class AboutComponent {
-  readonly section = input.required<AboutSectionDto>();
+  readonly section = input.required<AboutSection>();
   readonly initials = input.required<string>();
 }

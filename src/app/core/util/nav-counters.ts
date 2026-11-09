@@ -1,4 +1,5 @@
-import { NavCounterSource, NavItemDto, ProjectDto, SkillGroupDto } from '../api/api.models';
+import { ProjectDto, SkillGroupDto } from '../api/api.models';
+import { NavCounterSource, NavItem } from '../content/site-content.model';
 import { pad2 } from './format';
 
 export type NavCounts = Readonly<Record<NavCounterSource, number>>;
@@ -17,6 +18,6 @@ export function deriveNavCounts(
 }
 
 /** Superscript text of a nav link: a zero-padded counter or the item's static glyph. */
-export function navBadge(item: NavItemDto, counts: NavCounts): string {
+export function navBadge(item: NavItem, counts: NavCounts): string {
   return item.counter ? pad2(counts[item.counter]) : (item.glyph ?? '');
 }

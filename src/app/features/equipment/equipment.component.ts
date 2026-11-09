@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
-import { EquipmentSectionDto, SkillGroupDto } from '../../core/api/api.models';
+import { SkillGroupDto } from '../../core/api/api.models';
+import { EquipmentSection } from '../../core/content/site-content.model';
 import { DisplayHeadingComponent } from '../../shared/display-heading/display-heading.component';
 import { SectionLabelComponent } from '../../shared/section-label/section-label.component';
 import { KitGroupComponent } from './kit-group/kit-group.component';
@@ -13,6 +14,6 @@ import { KitGroupComponent } from './kit-group/kit-group.component';
   host: { class: 'equipment section-wrap', id: 'equipment' },
 })
 export class EquipmentComponent {
-  readonly section = input.required<EquipmentSectionDto>();
+  readonly section = input.required<EquipmentSection>();
   readonly groups = input.required<readonly SkillGroupDto[]>();
 }

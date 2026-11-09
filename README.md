@@ -1,7 +1,11 @@
 # Mitja Kurath – Base Camp
 
-An Angular 21 rebuild of the React portfolio. It is pixel-faithful to the original, and every
-text, number and link comes from a REST API (see [API.md](API.md)).
+An Angular 21 rebuild of the React portfolio, pixel-faithful to the original.
+
+- **Static texts** (name, SEO, navigation, hero, section headings, about, contact links,
+  footer) live in `src/app/core/content/site-content.ts`. Edit and redeploy.
+- **Editable content** (projects, skill groups, career roles) comes from the REST API in
+  [`api/`](api/README.md), a Cloudflare Worker with a D1 database. Contract: [API.md](API.md).
 
 ## Run
 
@@ -37,7 +41,9 @@ Rebuild whenever you want crawlers to see new content.
 
 ## Deploy (Cloudflare Pages)
 
-- **From your machine:** `pnpm deploy` builds and uploads `dist/portfolio/browser` (see `wrangler.jsonc`).
+- **From your machine:** `pnpm run deploy` builds and uploads `dist/portfolio/browser` (see
+  `wrangler.jsonc`). Use `pnpm run deploy`, not `pnpm deploy`: the latter is a built-in pnpm
+  command and ignores the script.
 - **Git integration** (Pages → Settings → Builds):
   - Build command: `pnpm build`
   - Build output directory: `dist/portfolio/browser`
@@ -54,8 +60,8 @@ Rebuild whenever you want crawlers to see new content.
 - **Mock mode:** `mockApiInterceptor` answers every API call from
   `src/app/core/mock/mock-data.ts` after a ~150 ms delay (`mockDelayMs`). The mock data
   is a lazily loaded chunk, so production never downloads it.
-- **Real backend:** set `useMock: false` in `environment.ts` and start your server on
-  `http://localhost:8080`. `ng serve` proxies `/api/*` there (`proxy.conf.json`), so there
+- **Real backend:** start the Worker (`cd api && pnpm dev`, see [api/README.md](api/README.md))
+  and set `useMock: false` in `environment.ts`. The Worker listens on `http://localhost:8080`. `ng serve` proxies `/api/*` there (`proxy.conf.json`), so there
   is no CORS setup in development. Change `target` in `proxy.conf.json` for another port.
 - **Other API host:** set `apiBaseUrl` to an absolute URL, e.g.
   `https://api.example.com/api/v1`, and enable CORS on the server (see API.md).
@@ -76,17 +82,19 @@ src/
   main.server.ts             server entry, used only for build-time pre-rendering
   environments/              apiBaseUrl / useMock / mockDelayMs / persistTheme
   app/
-    app.ts|html              shell: <main class="site-shell">, loading / error / ready
+    app.ts|html              shell: static sections + API sections (loading / error / ready)
     app.config.ts            HttpClient (fetch) + interceptors, router, hydration
     app.config.server.ts     build-time API (PORTFOLIO_API_URL or mock)
+    core/content/            static site texts (site-content.ts) and their types
     core/api/                DTOs, typed client, api + mock interceptors, ApiError
     core/state/              PortfolioStore (httpResource), Theme, Clock, Breakpoint, SEO
-    core/mock/mock-data.ts   original content as API payload
+    core/mock/mock-data.ts   original projects / skills / roles as API payload (also the DB seed)
     core/util/               pad2/byOrder, nav-counter derivation
     shared/                  contour svg, section label, display heading
     features/                topbar, hero, work (+card, art, route layout), about,
                              equipment (+kit group), experience, contact (+sign, form),
                              footer, status (loading / error)
+api/                         Cloudflare Worker API (Hono + D1), see api/README.md
 ```
 
 Components use attribute selectors (`section[appHero]`, `article[appProjectCard]`,

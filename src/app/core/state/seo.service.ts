@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { SiteDto } from '../api/api.models';
+import { SiteContent } from '../content/site-content.model';
 
 const JSON_LD_ID = 'person-jsonld';
 
@@ -16,7 +16,7 @@ export class SeoService {
   private readonly meta = inject(Meta);
   private readonly document = inject(DOCUMENT);
 
-  apply(site: SiteDto): void {
+  apply(site: SiteContent): void {
     const { seo } = site;
     this.title.setTitle(seo.title);
     if (seo.language) {
@@ -37,7 +37,7 @@ export class SeoService {
     this.applyJsonLd(site);
   }
 
-  private applyJsonLd(site: SiteDto): void {
+  private applyJsonLd(site: SiteContent): void {
     const email = site.contactLinks.find((link) => link.kind === 'email');
     const person = {
       '@context': 'https://schema.org',

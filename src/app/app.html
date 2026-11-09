@@ -1,22 +1,24 @@
 <main class="site-shell">
   <div class="cursor-dot" aria-hidden="true"></div>
+  <!-- Static sections (site-content.ts) render immediately; data sections wait for the API. -->
+  <header appTopbar [site]="site" [counts]="navCounts()"></header>
+  <section appHero [site]="site"></section>
   @switch (store.status()) {
     @case ('ready') {
-      @let site = store.site()!;
-      <header appTopbar [site]="site" [counts]="store.navCounts()"></header>
-      <section appHero [site]="site"></section>
       <section appWork [section]="site.sections.work" [projects]="store.projects()"></section>
-      <section appAbout [section]="site.sections.about" [initials]="site.person.initials"></section>
-      <section appEquipment [section]="site.sections.equipment" [groups]="store.skills()"></section>
-      <section appExperience [section]="site.sections.experience" [roles]="store.roles()"></section>
-      <section appContact [section]="site.sections.contact" [links]="site.contactLinks" [form]="site.contactForm"></section>
-      <footer appFooter [site]="site"></footer>
     }
     @case ('error') {
       <section appErrorState [error]="store.error()" (retry)="retry()"></section>
     }
     @default {
-      <app-loading-state />
+      <section appLoadingState></section>
     }
   }
+  <section appAbout [section]="site.sections.about" [initials]="site.person.initials"></section>
+  @if (store.status() === 'ready') {
+    <section appEquipment [section]="site.sections.equipment" [groups]="store.skills()"></section>
+    <section appExperience [section]="site.sections.experience" [roles]="store.roles()"></section>
+  }
+  <section appContact [section]="site.sections.contact" [links]="site.contactLinks" [form]="site.contactForm"></section>
+  <footer appFooter [site]="site"></footer>
 </main>

@@ -46,7 +46,6 @@ function isContactMessage(body: unknown): body is ContactMessageRequest {
 }
 
 const GET_HANDLERS: Readonly<Record<string, MockHandler>> = {
-  [API_ENDPOINTS.site]: (_, data) => ok(data.site),
   [API_ENDPOINTS.projects]: (_, data) => ok(data.projects),
   [API_ENDPOINTS.skills]: (_, data) => ok(data.skills),
   [API_ENDPOINTS.experience]: (_, data) => ok(data.experience),

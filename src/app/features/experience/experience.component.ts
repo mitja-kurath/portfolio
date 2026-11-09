@@ -5,7 +5,8 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { ExperienceSectionDto, RoleDto } from '../../core/api/api.models';
+import { RoleDto } from '../../core/api/api.models';
+import { ExperienceSection } from '../../core/content/site-content.model';
 import { DisplayHeadingComponent } from '../../shared/display-heading/display-heading.component';
 import { SectionLabelComponent } from '../../shared/section-label/section-label.component';
 import { RoleView, toRoleViews } from './role-layout';
@@ -19,7 +20,7 @@ import { RoleView, toRoleViews } from './role-layout';
   host: { class: 'experience section-wrap', id: 'experience' },
 })
 export class ExperienceComponent {
-  readonly section = input.required<ExperienceSectionDto>();
+  readonly section = input.required<ExperienceSection>();
   readonly roles = input.required<readonly RoleDto[]>();
 
   protected readonly roleViews = computed<RoleView[]>(() =>

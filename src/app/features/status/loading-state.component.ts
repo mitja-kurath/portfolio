@@ -1,20 +1,15 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 /**
- * Skeleton shown while `/portfolio` loads: the empty topbar rule and hero block on the
- * paper background, using the same classes so dimensions match the loaded page (no CLS).
+ * Placeholder for the API-driven sections (work, equipment, experience) while `/portfolio`
+ * loads. The static sections around it are already rendered.
  */
 @Component({
-  selector: 'app-loading-state',
-  template: `
-    <div class="topbar" aria-hidden="true"></div>
-    <section class="hero" aria-busy="true">
-      <p class="visually-hidden" role="status">Loading…</p>
-    </section>
-  `,
+  selector: 'section[appLoadingState]',
+  template: `<p class="visually-hidden" role="status">Loading projects…</p>`,
   styleUrl: './status.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  host: { style: 'display: contents' },
+  host: { class: 'api-loading', 'aria-busy': 'true' },
 })
 export class LoadingStateComponent {}

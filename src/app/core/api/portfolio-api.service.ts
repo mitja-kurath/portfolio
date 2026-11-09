@@ -8,7 +8,6 @@ import {
   ExperienceDto,
   PortfolioDto,
   ProjectDto,
-  SiteDto,
   SkillGroupDto,
 } from './api.models';
 
@@ -19,10 +18,6 @@ import {
 @Injectable({ providedIn: 'root' })
 export class PortfolioApiService {
   private readonly http = inject(HttpClient);
-
-  getSite(): Observable<SiteDto> {
-    return this.http.get<SiteDto>(API_ENDPOINTS.site);
-  }
 
   getProjects(): Observable<ProjectDto[]> {
     return this.http.get<ProjectDto[]>(API_ENDPOINTS.projects);

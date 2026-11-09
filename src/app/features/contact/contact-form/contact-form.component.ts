@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ContactFormConfigDto } from '../../../core/api/api.models';
+import { ContactFormConfig } from '../../../core/content/site-content.model';
 import { PortfolioApiService } from '../../../core/api/portfolio-api.service';
 
 type SendState = 'idle' | 'sending' | 'sent' | 'error';
@@ -29,7 +29,7 @@ type FieldName = 'name' | 'email' | 'message';
   encapsulation: ViewEncapsulation.None,
 })
 export class ContactFormComponent {
-  readonly config = input.required<ContactFormConfigDto>();
+  readonly config = input.required<ContactFormConfig>();
 
   private readonly api = inject(PortfolioApiService);
   private readonly destroyRef = inject(DestroyRef);

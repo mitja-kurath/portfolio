@@ -1,7 +1,11 @@
 # Portfolio API — v1
 
-The Angular frontend loads **all** its content from this API. To change the site, change
-the API response. No template edits are needed.
+The API serves the content that changes: **projects, skill groups and career roles**.
+Static site texts (name, SEO, navigation, hero, section headings, about text, contact links,
+footer) ship with the frontend in `src/app/core/content/site-content.ts`.
+
+The reference implementation is the Cloudflare Worker in [`api/`](api/README.md)
+(Hono + D1).
 
 - **Base URL:** `/api/v1` (configurable via `environment.apiBaseUrl`)
 - **Format:** `application/json; charset=utf-8`, camelCase property names
@@ -11,11 +15,10 @@ the API response. No template edits are needed.
 
 | Method | Path                | Purpose                                         | Used by the UI |
 |--------|---------------------|-------------------------------------------------|----------------|
-| GET    | `/site`             | Global site, hero, sections, contact, footer    | via `/portfolio` |
 | GET    | `/projects`         | Ordered list of projects                        | via `/portfolio` |
 | GET    | `/skills`           | Ordered skill groups                            | via `/portfolio` |
 | GET    | `/experience`       | Ordered career roles                            | via `/portfolio` |
-| GET    | `/portfolio`        | Aggregate of the four above (one-shot load)     | **yes, on start** |
+| GET    | `/portfolio`        | Aggregate of the three above (one-shot load)    | **yes, on start** |
 | POST   | `/contact-messages` | Submit a contact message                        | contact form (when enabled) |
 
 The TypeScript source of truth for the contract is `src/app/core/api/api.models.ts`.
@@ -30,231 +33,14 @@ Returns everything the page needs in a single request:
 
 ```json
 {
-  "site":       { …SiteDto, see GET /site },
   "projects":   [ …ProjectDto, see GET /projects ],
   "skills":     [ …SkillGroupDto, see GET /skills ],
   "experience": { …ExperienceDto, see GET /experience }
 }
 ```
 
-`200 OK` · Recommended: `Cache-Control: public, max-age=300` and an `ETag`.
-
----
-
-## GET /site
-
-`200 OK`. A `SiteDto`.
-
-Field notes:
-
-| Field | Meaning |
-|-------|---------|
-| `seo.title` / `seo.description` / `seo.language` | Sets `<title>`, `<meta name="description">` and `<html lang>`. |
-| `person.firstName` / `lastName` | Hero headline line 1 / outlined line 2. `initials` is used in the brand and the portrait. |
-| `timezone` | IANA zone for the footer clock (falls back to `Europe/Zurich` if invalid). `timezoneLabel` is the text next to it. |
-| `navigation[].counter` | `projects` = number of projects, `notes` = 1 (about section), `skills` = total number of skill items; `null` → `glyph` is shown instead. Counters are zero-padded. |
-| `hero.coordinates`, `hero.taglineLines` | Arrays of lines, rendered separated by `<br>`. |
-| `sections.*.number` / `title` / `elevation` | Section label, e.g. `01 / THE ROUTE … 1,240 M` (the unit ` M` is added by the UI). |
-| `sections.*.headingLines` + `emphasis` | Big heading: lines separated by `<br>`, then the emphasised `<em>` part. `emphasisInline: true` continues the last line (“the *pack.*”); otherwise the emphasis starts a new line. |
-| `sections.experience.altitudes` | Chart altitude labels, bottom to top (max. 3 positions are styled). |
-| `sections.experience.currentLabel` | Year label for a role with `isCurrent: true` (e.g. `NOW`). |
-| `contactLinks[].kind` | `email` \| `github` \| `linkedin`. Selects the signpost arm (`.sign-{kind}`). `direction: "left"` puts the arrow before the label. `external: true` opens a new tab with `rel="noreferrer"`. |
-| `contactForm.enabled` | Shows an extra contact form under the heading. It is **not** part of the original design, so keep it `false` for pixel parity. All its labels come from here. |
-
-```json
-{
-  "seo": {
-    "title": "Mitja Kurath – Base Camp",
-    "description": "Mitja Kurath, software developer and scout based in Switzerland. Building things that hold up in any weather.",
-    "language": "en"
-  },
-  "person": {
-    "firstName": "MITJA",
-    "lastName": "KURATH",
-    "initials": "MK",
-    "ariaHomeLabel": "Mitja Kurath, home"
-  },
-  "timezone": "Europe/Zurich",
-  "timezoneLabel": "CET",
-  "footerCity": "ZÜRICH, CH",
-  "brandCoordinates": "46°57′N",
-  "navigation": [
-    {
-      "label": "Work",
-      "href": "#work",
-      "counter": "projects"
-    },
-    {
-      "label": "Notes",
-      "href": "#about",
-      "counter": "notes"
-    },
-    {
-      "label": "Kit",
-      "href": "#equipment",
-      "counter": "skills"
-    },
-    {
-      "label": "Contact",
-      "href": "#contact",
-      "counter": null,
-      "glyph": "↗"
-    }
-  ],
-  "hero": {
-    "kicker": "BASE CAMP",
-    "routeCode": "ROUTE / MK—25",
-    "coordinates": [
-      "47° 22′ 00″ N",
-      "08° 33′ 00″ E"
-    ],
-    "altitudeLabel": "ALT.",
-    "altitude": 408,
-    "taglineLines": [
-      "Software developer. Scout.",
-      "Building things that hold up",
-      "in any weather."
-    ],
-    "ctaLabel": "Follow the trail",
-    "ctaHref": "#work",
-    "scrollNote": "SCROLL TO ASCEND"
-  },
-  "sections": {
-    "work": {
-      "number": "01",
-      "title": "THE ROUTE",
-      "elevation": "1,240",
-      "headingLines": [
-        "Selected"
-      ],
-      "emphasis": "waypoints.",
-      "emphasisInline": false,
-      "intro": "A selection of digital products, systems, and experiments made with clarity and built for the long route."
-    },
-    "about": {
-      "number": "02",
-      "title": "FIELD NOTES",
-      "elevation": "1,872",
-      "eyebrowLines": [
-        "DEVELOPER BY TRADE",
-        "PATHFINDER BY NATURE"
-      ],
-      "quote": {
-        "before": "Good systems, like good trails, should make the way forward",
-        "emphasis": "feel obvious."
-      },
-      "paragraphs": [
-        "I’m Mitja, a software developer based in Switzerland. I care about thoughtful interfaces, durable code, and reducing complex problems to their clearest form.",
-        "Away from the screen, I lead a local scout group. It keeps me practical: plan well, adapt quickly, leave things better than you found them."
-      ],
-      "portraitLabel": "// PORTRAIT, SOMEWHERE OUTSIDE",
-      "stampLines": [
-        "OUT",
-        "THERE"
-      ],
-      "stampSmall": "EST. 1997",
-      "linkLabel": "More about the route",
-      "linkHref": "#contact"
-    },
-    "equipment": {
-      "number": "03",
-      "title": "EQUIPMENT",
-      "elevation": "2,310",
-      "headingLines": [
-        "What’s in",
-        "the"
-      ],
-      "emphasis": "pack.",
-      "emphasisInline": true,
-      "intro": "// A working kit for taking digital products from first sketch to reliable release."
-    },
-    "experience": {
-      "number": "04",
-      "title": "THE ASCENT",
-      "elevation": "2,780",
-      "headingLines": [
-        "Experience,"
-      ],
-      "emphasis": "in elevation.",
-      "emphasisInline": false,
-      "introLines": [
-        "Every role added perspective.",
-        "Every project raised the bar."
-      ],
-      "altitudes": [
-        "1,200 M",
-        "2,000 M",
-        "2,800 M"
-      ],
-      "currentLabel": "NOW"
-    },
-    "contact": {
-      "number": "05",
-      "title": "SUMMIT",
-      "elevation": "3,463",
-      "note": [
-        "// THE VIEW IS BETTER",
-        "WHEN SHARED"
-      ],
-      "headingLines": [
-        "LET’S BUILD",
-        "SOMETHING"
-      ],
-      "emphasis": "TOGETHER.",
-      "emphasisInline": false
-    }
-  },
-  "contactLinks": [
-    {
-      "kind": "email",
-      "label": "Email",
-      "href": "mailto:hello@mitjakurath.ch",
-      "hint": "0.0 KM · NOW",
-      "external": false,
-      "direction": "right"
-    },
-    {
-      "kind": "github",
-      "label": "GitHub",
-      "href": "https://github.com/",
-      "hint": "1 CLICK · NEARBY",
-      "external": true,
-      "direction": "left"
-    },
-    {
-      "kind": "linkedin",
-      "label": "LinkedIn",
-      "href": "https://linkedin.com/",
-      "hint": "2 MIN · NORTH",
-      "external": true,
-      "direction": "right"
-    }
-  ],
-  "contactForm": {
-    "enabled": false,
-    "title": "Send a message",
-    "nameLabel": "Name",
-    "emailLabel": "Email",
-    "messageLabel": "Message",
-    "submitLabel": "Send message",
-    "sendingLabel": "Sending…",
-    "successMessage": "Message received. I’ll get back to you soon.",
-    "errorMessage": "The message could not be sent. Please try again or use email."
-  },
-  "footer": {
-    "localTimeLabel": "LOCAL TIME",
-    "compassNorth": "N",
-    "compassLabelLines": [
-      "KEEP",
-      "EXPLORING"
-    ],
-    "credit": "Made with care & a little trail dust.",
-    "ownerName": "MITJA KURATH",
-    "backToTopLabel": "BACK TO BASE CAMP",
-    "backToTopHref": "#base-camp"
-  }
-}
-```
+`200 OK` · The Worker sends `Cache-Control: public, max-age=60, stale-while-revalidate=600`
+and an `ETag` (repeat requests with `If-None-Match` get `304`).
 
 ---
 
@@ -482,11 +268,12 @@ Every non-2xx response should be `application/problem+json`:
 ```
 
 The client maps this to `ApiError { status, title, detail, type, instance }`. If loading
-`/portfolio` fails, the page shows an error block with a **Try again** button.
+`/portfolio` fails, the static sections stay visible and the data sections are replaced by
+an error block with a **Try again** button.
 
 ---
 
-## Spring Boot notes
+## Spring Boot notes (alternative backend)
 
 **Problem details:**
 
@@ -519,11 +306,10 @@ You can also annotate the controller with `@CrossOrigin(origins = "http://localh
 @RestController
 @RequestMapping("/api/v1")
 class PortfolioController {
-  @GetMapping("/site")        SiteDto site()                 { … }
   @GetMapping("/projects")    List<ProjectDto> projects()    { … }
   @GetMapping("/skills")      List<SkillGroupDto> skills()   { … }
   @GetMapping("/experience")  ExperienceDto experience()     { … }
-  @GetMapping("/portfolio")   PortfolioDto portfolio()       { return new PortfolioDto(site(), projects(), skills(), experience()); }
+  @GetMapping("/portfolio")   PortfolioDto portfolio()       { return new PortfolioDto(projects(), skills(), experience()); }
 
   @PostMapping("/contact-messages")
   ResponseEntity<ContactMessageResponse> contact(@Valid @RequestBody ContactMessageRequest req) { … }
@@ -531,4 +317,4 @@ class PortfolioController {
 ```
 
 Java records map 1:1 to the TypeScript interfaces (Jackson serialises camelCase by default).
-Optional fields (`glyph`, `layoutClass`, `url`, `emphasisInline`) can be omitted or `null`.
+Optional fields (`layoutClass`, `url`) can be omitted or `null`.

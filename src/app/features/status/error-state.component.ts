@@ -7,7 +7,10 @@ import {
 } from '@angular/core';
 import { ApiError } from '../../core/api/api-error';
 
-/** Full-width failure block in the site's visual language, with a retry action. */
+/**
+ * Shown in place of the API-driven sections when `/portfolio` fails, with a retry action.
+ * The static sections around it stay visible.
+ */
 @Component({
   selector: 'section[appErrorState]',
   template: `
@@ -15,8 +18,8 @@ import { ApiError } from '../../core/api/api-error';
       <span class="stripe-mark" aria-hidden="true"><i></i><i></i><i></i></span>
       <span>{{ error()?.status || 'ERR' }} / OFF ROUTE</span>
     </div>
-    <h1 class="api-error-title">Signal lost.</h1>
-    <p class="api-error-detail">// {{ error()?.title ?? 'The portfolio could not be loaded.' }}</p>
+    <h2 class="api-error-title">Signal lost.</h2>
+    <p class="api-error-detail">// {{ error()?.title ?? 'The projects could not be loaded.' }}</p>
     @if (error()?.detail; as detail) {
       <p class="api-error-detail">{{ detail }}</p>
     }

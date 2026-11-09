@@ -26,7 +26,11 @@ describe('App (rendered against the mock API)', () => {
     fixture = TestBed.createComponent(App);
     el = fixture.nativeElement as HTMLElement;
     fixture.detectChanges();
-    expect(el.querySelector('.hero[aria-busy="true"]')).not.toBeNull();
+    // While /portfolio loads, the static sections are already there; data sections wait.
+    expect(el.querySelector('.hero h1')?.textContent).toContain('MITJA');
+    expect(el.querySelector('#contact')).not.toBeNull();
+    expect(el.querySelector('section.api-loading[aria-busy="true"]')).not.toBeNull();
+    expect(el.querySelector('#work')).toBeNull();
     await new Promise((resolve) => setTimeout(resolve, 10));
     await TestBed.inject(ApplicationRef).whenStable();
     fixture.detectChanges();
@@ -190,7 +194,7 @@ describe('App (rendered against the mock API)', () => {
     expect(text('footer > a')).toBe('BACK TO BASE CAMP ↑');
   });
 
-  it('applies SEO, Open Graph and JSON-LD from the API', () => {
+  it('applies SEO, Open Graph and JSON-LD from the static site content', () => {
     const meta = (selector: string) => document.querySelector(selector)?.getAttribute('content');
     expect(document.title).toBe('Mitja Kurath – Base Camp');
     expect(meta('meta[name="description"]')).toContain('Mitja Kurath');

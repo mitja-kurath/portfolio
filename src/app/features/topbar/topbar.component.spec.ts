@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { SITE_CONTENT } from '../../core/content/site-content';
 import { MOCK_PORTFOLIO } from '../../core/mock/mock-data';
 import { BreakpointService } from '../../core/state/breakpoint.service';
 import { deriveNavCounts } from '../../core/util/nav-counters';
@@ -10,7 +11,7 @@ import { TopbarComponent } from './topbar.component';
   template: `<header appTopbar [site]="site" [counts]="counts"></header>`,
 })
 class HostComponent {
-  readonly site = MOCK_PORTFOLIO.site;
+  readonly site = SITE_CONTENT;
   readonly counts = deriveNavCounts(MOCK_PORTFOLIO.projects, MOCK_PORTFOLIO.skills);
 }
 

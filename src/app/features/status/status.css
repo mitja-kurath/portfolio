@@ -1,7 +1,9 @@
 /* Loading / error states. Not part of the original design; built from its tokens. */
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-.api-error { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: 120px 3.6vw; border-top: 12px solid var(--red); font-family: var(--mono); }
+.api-loading { min-height: 100vh; }
+
+.api-error { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: 120px 3.6vw; border-top: 12px solid var(--red); font-family: var(--mono); }
 .api-error .section-label::after { content: none; }
 .api-error-title { font: 850 clamp(64px, 11vw, 160px)/.8 var(--sans); letter-spacing: -.075em; }
 .api-error-detail { max-width: 640px; font: 500 12px/1.5 var(--mono); color: var(--muted); }

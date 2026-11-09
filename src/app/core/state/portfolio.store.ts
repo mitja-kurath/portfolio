@@ -8,10 +8,9 @@ import {
   makeStateKey,
 } from '@angular/core';
 import { API_ENDPOINTS } from '../api/api.config';
-import { PortfolioDto, ProjectDto, RoleDto, SiteDto, SkillGroupDto } from '../api/api.models';
+import { PortfolioDto, ProjectDto, RoleDto, SkillGroupDto } from '../api/api.models';
 import { ApiError, toApiError } from '../api/api-error';
 import { byOrder } from '../util/format';
-import { NavCounts, deriveNavCounts } from '../util/nav-counters';
 
 export type LoadStatus = 'loading' | 'ready' | 'error';
 
@@ -19,7 +18,8 @@ export type LoadStatus = 'loading' | 'ready' | 'error';
 export const PORTFOLIO_STATE_KEY = makeStateKey<PortfolioDto>('portfolio');
 
 /**
- * Loads `/portfolio` and exposes the content as read-only signals.
+ * Loads `/portfolio` (projects, skills, roles) and exposes it as read-only signals.
+ * Static site texts are not loaded; they live in `core/content/site-content.ts`.
  *
  * Pre-rendering: the build-time payload is serialised into the HTML (TransferState).
  * The browser starts from it, so hydration sees the same content, and still fetches
@@ -52,15 +52,10 @@ export class PortfolioStore {
     return error ? toApiError(error) : null;
   });
 
-  readonly site = computed<SiteDto | null>(() => this.data()?.site ?? null);
   readonly projects = computed<ProjectDto[]>(() => byOrder(this.data()?.projects ?? []));
   readonly skills = computed<SkillGroupDto[]>(() => byOrder(this.data()?.skills ?? []));
   readonly roles = computed<RoleDto[]>(() => byOrder(this.data()?.experience.roles ?? []));
   readonly experience = computed(() => ({ roles: this.roles() }));
-
-  readonly navCounts = computed<NavCounts>(() =>
-    deriveNavCounts(this.projects(), this.skills(), !!this.site()?.sections.about),
-  );
 
   constructor() {
     // Runs when the server serialises the page (no-op in the browser).

@@ -5,7 +5,7 @@ import {
   computed,
   input,
 } from '@angular/core';
-import { ContactLinkDto } from '../../../core/api/api.models';
+import { ContactLink } from '../../../core/content/site-content.model';
 
 /** One arm of the signpost. Host is the <a>, so `.sign` / `.sign-{kind}` apply directly. */
 @Component({
@@ -31,7 +31,7 @@ import { ContactLinkDto } from '../../../core/api/api.models';
   },
 })
 export class ContactSignComponent {
-  readonly link = input.required<ContactLinkDto>();
+  readonly link = input.required<ContactLink>();
 
   protected readonly kindClass = computed(() => `sign sign-${this.link().kind}`);
 }

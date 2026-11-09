@@ -22,7 +22,6 @@ export const API_CONFIG = new InjectionToken<ApiConfig>('API_CONFIG', {
  * them and prefix the configured base URL.
  */
 export const API_ENDPOINTS = {
-  site: 'site',
   projects: 'projects',
   skills: 'skills',
   experience: 'experience',

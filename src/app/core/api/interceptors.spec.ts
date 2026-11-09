@@ -82,7 +82,6 @@ describe('mockApiInterceptor', () => {
   });
 
   it('serves every GET endpoint from mock data', async () => {
-    expect(await firstValueFrom(api.getSite())).toEqual(MOCK_PORTFOLIO.site);
     expect(await firstValueFrom(api.getProjects())).toEqual(MOCK_PORTFOLIO.projects);
     expect(await firstValueFrom(api.getSkills())).toEqual(MOCK_PORTFOLIO.skills);
     expect(await firstValueFrom(api.getExperience())).toEqual(MOCK_PORTFOLIO.experience);
@@ -90,9 +89,9 @@ describe('mockApiInterceptor', () => {
   });
 
   it('returns copies so callers cannot mutate the mock', async () => {
-    const site = await firstValueFrom(api.getSite());
-    site.person.firstName = 'CHANGED';
-    expect(MOCK_PORTFOLIO.site.person.firstName).toBe('MITJA');
+    const projects = await firstValueFrom(api.getProjects());
+    projects[0].name = 'CHANGED';
+    expect(MOCK_PORTFOLIO.projects[0].name).toBe('Alpine Signal');
   });
 
   it('accepts valid contact messages and rejects invalid ones as problem+json', async () => {

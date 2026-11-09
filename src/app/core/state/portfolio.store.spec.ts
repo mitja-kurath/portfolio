@@ -35,7 +35,6 @@ describe('PortfolioStore', () => {
     expect(req.request.method).toBe('GET');
     expect(req.request.headers.get('Accept')).toContain('application/json');
     expect(store.status()).toBe('loading');
-    expect(store.site()).toBeNull();
     expect(store.projects()).toEqual([]);
     req.flush(MOCK_PORTFOLIO);
   });
@@ -52,7 +51,6 @@ describe('PortfolioStore', () => {
 
     expect(store.status()).toBe('ready');
     expect(store.error()).toBeNull();
-    expect(store.site()?.person.lastName).toBe('KURATH');
     expect(store.projects().map((p) => p.name)).toEqual([
       'Alpine Signal',
       'Nadel',
@@ -61,7 +59,7 @@ describe('PortfolioStore', () => {
     ]);
     expect(store.skills().map((s) => s.title)).toEqual(['Essentials', 'Navigation', 'Base layer']);
     expect(store.roles().at(-1)?.isCurrent).toBe(true);
-    expect(store.navCounts()).toEqual({ projects: 4, notes: 1, skills: 13 });
+    expect(store.projects()).toHaveLength(4);
   });
 
   it('maps problem+json failures to ApiError and recovers on reload', async () => {
@@ -106,7 +104,7 @@ describe('PortfolioStore', () => {
     TestBed.tick();
 
     expect(seeded.status()).toBe('ready');
-    expect(seeded.site()?.person.firstName).toBe('MITJA');
+    expect(seeded.projects()[0].name).toBe('Alpine Signal');
     http.expectOne('/api/v1/portfolio').flush(null, { status: 404, statusText: 'Not Found' });
     await TestBed.inject(ApplicationRef).whenStable();
     expect(seeded.status()).toBe('ready');
@@ -139,6 +137,6 @@ describe('PortfolioStore', () => {
       projects: MOCK_PORTFOLIO.projects.slice(0, 2),
     });
     await settle();
-    expect(store.navCounts().projects).toBe(2);
+    expect(store.projects()).toHaveLength(2);
   });
 });

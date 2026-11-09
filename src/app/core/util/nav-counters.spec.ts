@@ -1,10 +1,12 @@
-import { NavItemDto } from '../api/api.models';
+import { NavItem } from '../content/site-content.model';
+import { SITE_CONTENT } from '../content/site-content';
 import { MOCK_PORTFOLIO } from '../mock/mock-data';
 import { byOrder, pad2 } from './format';
 import { deriveNavCounts, navBadge } from './nav-counters';
 
 describe('nav counters', () => {
-  const { projects, skills, site } = MOCK_PORTFOLIO;
+  const { projects, skills } = MOCK_PORTFOLIO;
+  const site = SITE_CONTENT;
 
   it('derives Work 04 / Notes 01 / Kit 13 from the original content', () => {
     const counts = deriveNavCounts(projects, skills);
@@ -24,7 +26,7 @@ describe('nav counters', () => {
   });
 
   it('uses the glyph for items without a counter', () => {
-    const item: NavItemDto = { label: 'X', href: '#x', counter: null };
+    const item: NavItem = { label: 'X', href: '#x', counter: null };
     expect(navBadge(item, deriveNavCounts([], []))).toBe('');
     expect(navBadge({ ...item, glyph: '↗' }, deriveNavCounts([], []))).toBe('↗');
   });

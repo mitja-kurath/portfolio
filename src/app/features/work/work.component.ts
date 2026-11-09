@@ -6,7 +6,8 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { ProjectDto, WorkSectionDto } from '../../core/api/api.models';
+import { ProjectDto } from '../../core/api/api.models';
+import { WorkSection } from '../../core/content/site-content.model';
 import { BreakpointService } from '../../core/state/breakpoint.service';
 import { pad2 } from '../../core/util/format';
 import { DisplayHeadingComponent } from '../../shared/display-heading/display-heading.component';
@@ -23,7 +24,7 @@ import { computeRouteLayout, layoutClassFor } from './route-layout';
   host: { class: 'work section-wrap', id: 'work' },
 })
 export class WorkComponent {
-  readonly section = input.required<WorkSectionDto>();
+  readonly section = input.required<WorkSection>();
   readonly projects = input.required<readonly ProjectDto[]>();
 
   /** Inline positions must not leak into the stacked mobile layout. */

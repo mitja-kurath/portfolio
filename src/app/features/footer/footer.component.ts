@@ -6,7 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { SiteDto } from '../../core/api/api.models';
+import { SiteContent } from '../../core/content/site-content.model';
 import { ClockService, formatClock } from '../../core/state/clock.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { ClockService, formatClock } from '../../core/state/clock.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class FooterComponent {
-  readonly site = input.required<SiteDto>();
+  readonly site = input.required<SiteContent>();
 
   private readonly clock = inject(ClockService);
 

@@ -9,7 +9,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { NavItemDto, SiteDto } from '../../core/api/api.models';
+import { NavItem, SiteContent } from '../../core/content/site-content.model';
 import { BreakpointService } from '../../core/state/breakpoint.service';
 import { ThemeService } from '../../core/state/theme.service';
 import { NavCounts, navBadge } from '../../core/util/nav-counters';
@@ -31,7 +31,7 @@ interface NavLinkView {
   },
 })
 export class TopbarComponent {
-  readonly site = input.required<SiteDto>();
+  readonly site = input.required<SiteContent>();
   readonly counts = input.required<NavCounts>();
 
   private readonly theme = inject(ThemeService);
@@ -49,7 +49,7 @@ export class TopbarComponent {
     () => `Switch to ${this.dark() ? 'light' : 'dark'} mode`,
   );
   protected readonly links = computed<NavLinkView[]>(() =>
-    this.site().navigation.map((item: NavItemDto) => ({
+    this.site().navigation.map((item: NavItem) => ({
       label: item.label,
       href: item.href,
       badge: navBadge(item, this.counts()),
