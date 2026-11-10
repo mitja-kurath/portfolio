@@ -57,7 +57,7 @@ export const SITE_CONTENT: SiteContent = {
       portraitLabel: '// PORTRAIT, SOMEWHERE OUTSIDE',
       portraitAlt: 'Portrait of Mitja Kurath',
       stampLines: ['OUT', 'THERE'],
-      stampSmall: 'EST. 1997',
+      stampSmall: 'EST. 2007',
       linkLabel: 'More about the route',
       linkHref: '#contact',
     },
