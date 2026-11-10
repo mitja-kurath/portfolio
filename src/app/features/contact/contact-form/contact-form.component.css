@@ -1,23 +1,57 @@
-/* Contact form. Built from the contact section's own tokens:
-   ink on yellow, mono labels, square inputs, sign-style submit. */
-app-contact-form { position: relative; z-index: 3; display: block; max-width: 420px; margin: 70px 0 0 4%; }
-.contact-form { display: grid; gap: 6px; }
-.contact-form-title { margin-bottom: 10px; font: 600 9px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-.contact-form label { margin-top: 8px; font: 600 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-.contact-form input,
-.contact-form textarea { width: 100%; padding: 10px 12px; border: 1px solid #111; background: color-mix(in srgb, #fff 35%, transparent); color: #111; font: 500 14px/1.4 var(--sans); }
-.contact-form input:focus-visible,
-.contact-form textarea:focus-visible,
-.contact-form button:focus-visible { outline: 2px solid #111; outline-offset: 2px; }
-.contact-form [aria-invalid='true'] { border-color: #8f1d10; box-shadow: inset 0 0 0 1px #8f1d10; }
-.contact-form button { justify-self: start; display: flex; gap: 16px; align-items: center; margin-top: 14px; padding: 14px 22px; background: #111; color: #f3f0e7; font: 700 13px var(--sans); text-transform: uppercase; transition: transform .25s; }
+/* Contact form styled as a summit register (Gipfelbuch): a paper card nailed into the yellow
+   section, black header strip like the signs, numbered mono labels, underline fields,
+   ruled message lines and a sign-shaped submit. Colours are fixed (#111 on paper) because
+   the section is always yellow, also in dark mode. */
+app-contact-form { position: relative; z-index: 3; display: block; max-width: 460px; margin: 70px 0 0 4%; }
+
+/* A tilted page underneath gives the logbook feel. The form itself stays straight:
+   Chrome draws seams around form fields inside rotated elements. */
+app-contact-form::before { content: ''; position: absolute; inset: 0; border: 2px solid #111; background: #e2ddcc; transform: rotate(2.4deg); transform-origin: 30% 60%; }
+.contact-form { position: relative; border: 2px solid #111; background: #f3f0e7; color: #111; box-shadow: 8px 8px 0 #111; }
+
+.contact-form-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 16px; background: #111; color: #f3f0e7; }
+.contact-form-title { font: 600 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.contact-form-mark { display: flex; width: 34px; height: 10px; border: 1px solid #f3f0e7; }
+.contact-form-mark i { flex: 1; background: var(--yellow); }
+.contact-form-mark i:nth-child(2) { background: #111; }
+
+.contact-form-body { display: grid; gap: 20px; padding: 20px 18px 18px; }
+.contact-field { display: grid; gap: 4px; }
+.contact-field label { font: 600 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.contact-field label span { color: #6b6d64; margin-right: 4px; }
+
+.contact-field input,
+.contact-field textarea { width: 100%; padding: 6px 0 7px; border: 0; border-bottom: 2px solid #111; border-radius: 0; background: transparent; color: #111; font: 500 18px/1.3 var(--sans); letter-spacing: -.01em; transition: border-color .2s, background-color .2s; }
+/* Ruled logbook lines that scroll with the text. */
+.contact-field textarea { min-height: 128px; resize: vertical; line-height: 32px; padding: 0; background: repeating-linear-gradient(transparent 0 31px, #11111133 31px 32px); background-attachment: local; }
+.contact-field input:hover,
+.contact-field textarea:hover { border-bottom-color: #111; background-color: #1111110a; }
+/* Thicker underline via the border itself (a box-shadow leaks at the sides of the tilted card). */
+.contact-field input:focus-visible,
+.contact-field textarea:focus-visible { outline: none; border-bottom: 4px solid var(--red); margin-bottom: -2px; }
+.contact-field [aria-invalid='true'] { border-bottom: 4px solid #a3200f; margin-bottom: -2px; }
+.contact-field:has([aria-invalid='true']) label { color: #a3200f; }
+
+.contact-form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 4px; }
+.contact-form button { display: flex; gap: 18px; align-items: center; min-height: 52px; padding: 0 34px 0 20px; background: #111; color: #f3f0e7; font: 700 15px var(--sans); text-transform: uppercase; clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%); transition: transform .25s; }
+.contact-form button b { font-size: 20px; font-weight: 400; }
 .contact-form button:hover:not(:disabled) { transform: translateX(8px); }
+/* clip-path hides a normal outline: draw focus inside the sign, like the signposts. */
+.contact-form button:focus-visible { outline: 2px solid #f3f0e7; outline-offset: -6px; transform: translateX(8px); }
 .contact-form button:disabled { opacity: .7; }
-.contact-form button b { font-size: 18px; }
+.contact-form-status { flex: 1 1 160px; min-height: 1.4em; font: 500 11px/1.45 var(--mono); }
+
 .contact-form-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-.contact-form .turnstile { display: block; min-height: 65px; margin-top: 12px; }
-.contact-form-status { min-height: 1.4em; font: 500 10px/1.4 var(--mono); }
+/* Interaction-only Turnstile: takes no space unless Cloudflare shows a check. */
+.contact-form .turnstile { display: block; }
+.contact-form .turnstile:empty { display: none; }
+
+.contact-form-stamp { position: absolute; right: 18px; top: 58px; display: grid; place-items: center; width: 108px; height: 108px; border: 3px double var(--red); border-radius: 50%; color: var(--red); font: 700 15px/.9 var(--mono); letter-spacing: .06em; text-transform: uppercase; transform: rotate(-14deg); animation: contact-stamp .35s cubic-bezier(.2, 1.6, .4, 1) both; pointer-events: none; }
+.contact-form-stamp small { font-size: 20px; }
+@keyframes contact-stamp { from { opacity: 0; transform: rotate(-14deg) scale(1.6); } }
 
 @media (max-width: 800px) {
   app-contact-form { margin: 50px 0 300px; }
+  .contact-form { box-shadow: 5px 5px 0 #111; }
+  app-contact-form::before { transform: rotate(1.5deg); }
 }

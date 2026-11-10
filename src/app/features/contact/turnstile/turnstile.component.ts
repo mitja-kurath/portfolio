@@ -46,6 +46,7 @@ export class TurnstileComponent {
             sitekey: this.siteKey(),
             theme: 'light',
             size: 'flexible',
+            appearance: 'interaction-only',
             callback: (token) => this.tokenChange.emit(token),
             'expired-callback': () => this.tokenChange.emit(null),
             'error-callback': () => this.tokenChange.emit(null),

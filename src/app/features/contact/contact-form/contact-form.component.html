@@ -1,74 +1,93 @@
 @let c = config();
 <form
   class="contact-form"
+  [class.is-sent]="state() === 'sent'"
   [formGroup]="form"
   (ngSubmit)="submit()"
   [attr.aria-busy]="state() === 'sending'"
   aria-labelledby="contact-form-title"
   novalidate
 >
-  <p class="contact-form-title" id="contact-form-title">{{ c.title }}</p>
+  <header class="contact-form-head">
+    <p class="contact-form-title" id="contact-form-title">{{ c.title }}</p>
+    <span class="contact-form-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+  </header>
 
-  <label for="contact-name">{{ c.nameLabel }}</label>
-  <input
-    id="contact-name"
-    type="text"
-    formControlName="name"
-    autocomplete="name"
-    maxlength="200"
-    required
-    [attr.aria-invalid]="invalid('name')"
-  />
+  <div class="contact-form-body">
+    <div class="contact-field">
+      <label for="contact-name"><span aria-hidden="true">01 /</span> {{ c.nameLabel }}</label>
+      <input
+        id="contact-name"
+        type="text"
+        formControlName="name"
+        autocomplete="name"
+        maxlength="200"
+        required
+        [attr.aria-invalid]="invalid('name')"
+      />
+    </div>
 
-  <label for="contact-email">{{ c.emailLabel }}</label>
-  <input
-    id="contact-email"
-    type="email"
-    formControlName="email"
-    autocomplete="email"
-    maxlength="320"
-    required
-    [attr.aria-invalid]="invalid('email')"
-  />
+    <div class="contact-field">
+      <label for="contact-email"><span aria-hidden="true">02 /</span> {{ c.emailLabel }}</label>
+      <input
+        id="contact-email"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+        maxlength="320"
+        required
+        [attr.aria-invalid]="invalid('email')"
+      />
+    </div>
 
-  <label for="contact-message">{{ c.messageLabel }}</label>
-  <textarea
-    id="contact-message"
-    rows="4"
-    formControlName="message"
-    maxlength="5000"
-    required
-    [attr.aria-invalid]="invalid('message')"
-  ></textarea>
+    <div class="contact-field">
+      <label for="contact-message"><span aria-hidden="true">03 /</span> {{ c.messageLabel }}</label>
+      <textarea
+        id="contact-message"
+        rows="5"
+        formControlName="message"
+        maxlength="5000"
+        required
+        [attr.aria-invalid]="invalid('message')"
+      ></textarea>
+    </div>
 
-  <!-- Honeypot: invisible and unreachable for people; bots that fill it are ignored. -->
-  <div class="contact-form-trap" aria-hidden="true">
-    <label for="contact-website">Website</label>
-    <input id="contact-website" type="text" formControlName="website" tabindex="-1" autocomplete="off" />
+    <!-- Honeypot: invisible and unreachable for people; bots that fill it are ignored. -->
+    <div class="contact-form-trap" aria-hidden="true">
+      <label for="contact-website">Website</label>
+      <input id="contact-website" type="text" formControlName="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    @if (turnstileSiteKey()) {
+      <!-- Invisible unless Cloudflare needs the visitor to click a check. -->
+      <app-turnstile [siteKey]="turnstileSiteKey()" (tokenChange)="onToken($event)" />
+    }
+
+    <div class="contact-form-foot">
+      <button type="submit" [disabled]="state() === 'sending'">
+        <span>{{ state() === 'sending' ? c.sendingLabel : c.submitLabel }}</span>
+        <b aria-hidden="true">→</b>
+      </button>
+      <p class="contact-form-status" role="status" aria-live="polite">
+        @switch (state()) {
+          @case ('sent') {
+            {{ c.successMessage }}
+          }
+          @case ('error') {
+            {{ c.errorMessage }}
+          }
+          @case ('rate-limited') {
+            {{ c.rateLimitMessage }}
+          }
+          @case ('needs-check') {
+            {{ c.spamCheckMessage }}
+          }
+        }
+      </p>
+    </div>
   </div>
 
-  @if (turnstileSiteKey()) {
-    <app-turnstile [siteKey]="turnstileSiteKey()" (tokenChange)="onToken($event)" />
+  @if (state() === 'sent') {
+    <div class="contact-form-stamp" aria-hidden="true">{{ c.stampLabel }}<small>✓</small></div>
   }
-
-  <button type="submit" [disabled]="state() === 'sending'">
-    {{ state() === 'sending' ? c.sendingLabel : c.submitLabel }} <b aria-hidden="true">→</b>
-  </button>
-
-  <p class="contact-form-status" role="status" aria-live="polite">
-    @switch (state()) {
-      @case ('sent') {
-        {{ c.successMessage }}
-      }
-      @case ('error') {
-        {{ c.errorMessage }}
-      }
-      @case ('rate-limited') {
-        {{ c.rateLimitMessage }}
-      }
-      @case ('needs-check') {
-        {{ c.spamCheckMessage }}
-      }
-    }
-  </p>
 </form>

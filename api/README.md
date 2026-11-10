@@ -104,8 +104,9 @@ Setup for production:
    - Without these, messages are only stored. The admin panel (next step) will list them.
 3. Deploy the Worker first, then the site with the form enabled.
 
-Locally, `.dev.vars` uses Cloudflare's test secret. It pairs with the always-passing test site
-key in `environment.ts`, so the widget shows "for testing only".
+Locally, `.dev.vars` uses Cloudflare's test secret. It pairs with the invisible, always-passing
+test site key in `environment.ts`. The widget runs in `interaction-only` mode, so visitors only
+see it in the rare case Cloudflare wants a click.
 
 ## First deploy
 

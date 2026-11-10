@@ -8,7 +8,8 @@ export const environment: AppEnvironment = {
   persistTheme: false,
   contactForm: {
     enabled: true,
-    // Cloudflare's always-passing Turnstile test key (pairs with api/.dev.vars.example).
-    turnstileSiteKey: '1x00000000000000000000AA',
+    // Cloudflare's invisible, always-passing Turnstile test key (pairs with the test secret
+    // in api/.dev.vars.example).
+    turnstileSiteKey: '1x00000000000000000000BB',
   },
 };

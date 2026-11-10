@@ -86,6 +86,8 @@ export interface ContactFormConfig {
   submitLabel: string;
   sendingLabel: string;
   successMessage: string;
+  /** Text of the stamp shown on the card after sending. */
+  stampLabel: string;
   errorMessage: string;
   /** Shown when the visitor submits before the spam check has finished. */
   spamCheckMessage: string;

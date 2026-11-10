@@ -11,6 +11,8 @@ export interface TurnstileOptions {
   sitekey: string;
   theme?: 'light' | 'dark' | 'auto';
   size?: 'normal' | 'flexible' | 'compact';
+  /** `interaction-only`: invisible unless the visitor has to click a check. */
+  appearance?: 'always' | 'execute' | 'interaction-only';
   callback?: (token: string) => void;
   'expired-callback'?: () => void;
   'error-callback'?: () => void;
