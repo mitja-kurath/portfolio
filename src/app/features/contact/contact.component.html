@@ -1,7 +1,6 @@
 @let s = section();
 <svg appContour class="contact-contour"></svg>
 <div class="contact-top">
-  <div appSectionLabel [number]="s.number" [title]="s.title" [elevation]="s.elevation"></div>
   <span class="summit-note">
     @for (line of s.note; track $index) {
       @if (!$first) {<br />}

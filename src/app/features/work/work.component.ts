@@ -11,13 +11,12 @@ import { WorkSection } from '../../core/content/site-content.model';
 import { BreakpointService } from '../../core/state/breakpoint.service';
 import { pad2 } from '../../core/util/format';
 import { DisplayHeadingComponent } from '../../shared/display-heading/display-heading.component';
-import { SectionLabelComponent } from '../../shared/section-label/section-label.component';
 import { ProjectCardComponent, ProjectCardView } from './project-card/project-card.component';
 import { computeRouteLayout, layoutClassFor } from './route-layout';
 
 @Component({
   selector: 'section[appWork]',
-  imports: [SectionLabelComponent, DisplayHeadingComponent, ProjectCardComponent],
+  imports: [DisplayHeadingComponent, ProjectCardComponent],
   templateUrl: './work.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

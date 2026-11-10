@@ -98,11 +98,12 @@ describe('HomePageComponent (rendered against the mock API)', () => {
     TestBed.tick();
   });
 
-  it('renders the hero exactly like the original markup', () => {
+  it('renders the hero without the route and kicker labels', () => {
     expect(el.querySelector('.hero h1')!.innerHTML.replace(/<!--.*?-->/g, '')).toBe(
       'MITJA<br><span>KURATH</span>',
     );
-    expect(text('.hero-route')).toBe('ROUTE / MK—25');
+    expect(el.querySelector('.hero-route')).toBeNull();
+    expect(text('.hero-kicker')).toBe('47° 25′ 28″ N 09° 22′ 36″ E');
     expect(text('.hero-altitude')).toBe('ALT.670 M');
     expect(el.querySelectorAll('.hero-tagline br')).toHaveLength(2);
     expect(el.querySelector('svg.contour.hero-contour')).not.toBeNull();

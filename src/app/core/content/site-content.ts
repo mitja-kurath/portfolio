@@ -28,8 +28,6 @@ export const SITE_CONTENT: SiteContent = {
     { label: 'Contact', href: '#contact', counter: null, glyph: '↗' },
   ],
   hero: {
-    kicker: 'BASE CAMP',
-    routeCode: 'ROUTE / MK—25',
     coordinates: ['47° 25′ 28″ N', '09° 22′ 36″ E'],
     altitudeLabel: 'ALT.',
     altitude: 670,
@@ -40,9 +38,6 @@ export const SITE_CONTENT: SiteContent = {
   },
   sections: {
     work: {
-      number: '01',
-      title: 'THE ROUTE',
-      elevation: '1,240',
       headingLines: ['Selected'],
       emphasis: 'waypoints.',
       emphasisInline: false,
@@ -50,9 +45,6 @@ export const SITE_CONTENT: SiteContent = {
         'A selection of digital products, systems, and experiments made with clarity and built for the long route.',
     },
     about: {
-      number: '02',
-      title: 'FIELD NOTES',
-      elevation: '1,872',
       eyebrowLines: ['DEVELOPER BY TRADE', 'PATHFINDER BY NATURE'],
       quote: {
         before: 'Good systems, like good trails, should make the way forward',
@@ -69,9 +61,6 @@ export const SITE_CONTENT: SiteContent = {
       linkHref: '#contact',
     },
     equipment: {
-      number: '03',
-      title: 'EQUIPMENT',
-      elevation: '2,310',
       headingLines: ['What’s in', 'the'],
       emphasis: 'pack.',
       emphasisInline: true,
@@ -79,9 +68,6 @@ export const SITE_CONTENT: SiteContent = {
         '// A working kit for taking digital products from first sketch to reliable release.',
     },
     experience: {
-      number: '04',
-      title: 'THE ASCENT',
-      elevation: '2,780',
       headingLines: ['Experience,'],
       emphasis: 'in elevation.',
       emphasisInline: false,
@@ -90,9 +76,6 @@ export const SITE_CONTENT: SiteContent = {
       currentLabel: 'NOW',
     },
     contact: {
-      number: '05',
-      title: 'SUMMIT',
-      elevation: '3,463',
       note: ['// THE VIEW IS BETTER', 'WHEN SHARED'],
       headingLines: ['LET’S BUILD', 'SOMETHING'],
       emphasis: 'TOGETHER.',

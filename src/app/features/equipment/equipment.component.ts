@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
 import { SkillGroupDto } from '../../core/api/api.models';
 import { EquipmentSection } from '../../core/content/site-content.model';
 import { DisplayHeadingComponent } from '../../shared/display-heading/display-heading.component';
-import { SectionLabelComponent } from '../../shared/section-label/section-label.component';
 import { KitGroupComponent } from './kit-group/kit-group.component';
 
 @Component({
   selector: 'section[appEquipment]',
-  imports: [SectionLabelComponent, DisplayHeadingComponent, KitGroupComponent],
+  imports: [DisplayHeadingComponent, KitGroupComponent],
   templateUrl: './equipment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

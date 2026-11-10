@@ -8,12 +8,11 @@ import {
 import { RoleDto } from '../../core/api/api.models';
 import { ExperienceSection } from '../../core/content/site-content.model';
 import { DisplayHeadingComponent } from '../../shared/display-heading/display-heading.component';
-import { SectionLabelComponent } from '../../shared/section-label/section-label.component';
 import { RoleView, toRoleViews } from './role-layout';
 
 @Component({
   selector: 'section[appExperience]',
-  imports: [SectionLabelComponent, DisplayHeadingComponent],
+  imports: [DisplayHeadingComponent],
   templateUrl: './experience.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

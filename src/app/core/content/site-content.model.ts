@@ -16,12 +16,6 @@ export interface NavItem {
 }
 
 export interface SectionHeading {
-  /** Section number shown in the label, e.g. `01`. */
-  number: string;
-  /** Section title shown in the label, e.g. `THE ROUTE`. */
-  title: string;
-  /** Elevation shown in the label (without unit), e.g. `1,240`. */
-  elevation: string;
   /** Lines of the display heading, rendered separated by `<br>`. */
   headingLines: string[];
   /** Emphasised (serif / outlined) part of the heading. */
@@ -35,9 +29,6 @@ export interface WorkSection extends SectionHeading {
 }
 
 export interface AboutSection {
-  number: string;
-  title: string;
-  elevation: string;
   eyebrowLines: string[];
   quote: { before: string; emphasis: string };
   paragraphs: string[];
@@ -106,8 +97,6 @@ export interface SiteContent {
   brandCoordinates: string;
   navigation: NavItem[];
   hero: {
-    kicker: string;
-    routeCode: string;
     coordinates: string[];
     altitudeLabel: string;
     altitude: number;

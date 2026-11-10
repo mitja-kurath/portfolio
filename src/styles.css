@@ -64,7 +64,7 @@ nav sup { font-size: 7px; color: var(--muted); }
 .contour { overflow: visible; }
 .contour path { stroke: currentColor; stroke-width: 1.1; vector-effect: non-scaling-stroke; }
 .hero-contour { position: absolute; width: 66vw; height: 48vw; max-height: 730px; right: -3vw; top: 95px; color: var(--line); transform: rotate(-7deg); }
-.hero-kicker { position: relative; z-index: 2; display: flex; justify-content: space-between; width: 100%; font: 500 10px/1.4 var(--mono); letter-spacing: .08em; }
+.hero-kicker { position: relative; z-index: 2; display: flex; justify-content: flex-end; width: 100%; font: 500 10px/1.4 var(--mono); letter-spacing: .08em; }
 .hero-kicker span:last-child { margin-right: 10%; text-align: right; }
 .hero-title-wrap { position: relative; z-index: 2; margin-top: 8vh; }
 .hero-route { margin: 0 0 14px 1%; font: 500 10px var(--mono); letter-spacing: .15em; }
@@ -193,7 +193,7 @@ blockquote em { color: var(--yellow); }
 .contact .section-label .elevation, .contact .section-label::after { display: none; }
 .contact .stripe-mark i { background: #111; }
 .contact .stripe-mark i:nth-child(2) { background: var(--yellow); border-color: #111; }
-.summit-note { font: 600 9px/1.4 var(--mono); }
+.summit-note { grid-column: 2; font: 600 9px/1.4 var(--mono); }
 .contact h2 { position: relative; z-index: 2; margin: 12vh 0 0 4%; font-size: clamp(80px, 11.7vw, 180px); font-weight: 850; line-height: .77; letter-spacing: -.045em; word-spacing: .08em; }
 .contact h2 em { color: #111; -webkit-text-stroke: 2px #111; -webkit-text-fill-color: transparent; }
 .signpost { position: absolute; z-index: 4; width: 410px; right: 9%; bottom: 110px; height: 270px; }

@@ -98,7 +98,7 @@ src/
     core/state/              PortfolioStore (httpResource), Theme, Clock, Breakpoint, SEO
     core/mock/mock-data.ts   original projects / skills / roles as API payload (also the DB seed)
     core/util/               pad2/byOrder, nav-counter derivation
-    shared/                  contour svg, section label, display heading
+    shared/                  contour svg, display heading
     features/home/           the portfolio page: static sections + API sections
     features/                topbar, hero, work (+card, art, route layout), about,
                              equipment (+kit group), experience, contact (+sign, form),

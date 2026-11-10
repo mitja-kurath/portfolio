@@ -6,7 +6,6 @@ import {
 } from '../../core/content/site-content.model';
 import { ContourComponent } from '../../shared/contour/contour.component';
 import { DisplayHeadingComponent } from '../../shared/display-heading/display-heading.component';
-import { SectionLabelComponent } from '../../shared/section-label/section-label.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { CONTACT_FORM_SETTINGS } from './contact-form/contact-form.settings';
 import { ContactSignComponent } from './contact-sign/contact-sign.component';
@@ -15,7 +14,6 @@ import { ContactSignComponent } from './contact-sign/contact-sign.component';
   selector: 'section[appContact]',
   imports: [
     ContourComponent,
-    SectionLabelComponent,
     DisplayHeadingComponent,
     ContactSignComponent,
     ContactFormComponent,
