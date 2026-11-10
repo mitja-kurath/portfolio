@@ -3,13 +3,18 @@ import { MOCK_PORTFOLIO } from '../../src/app/core/mock/mock-data';
 import { buildSeedSql } from '../scripts/seed-sql.mjs';
 import { app } from '../src/app';
 import type { Bindings } from '../src/env';
+import { MemoryR2 } from './memory-r2';
 import { createTestD1 } from './sqlite-d1';
 
 const ORIGIN = 'http://localhost:4200';
 
 function setup(seed = true) {
   const { d1, db } = createTestD1(...(seed ? [buildSeedSql(MOCK_PORTFOLIO)] : []));
-  const env: Bindings = { DB: d1, ALLOWED_ORIGINS: `${ORIGIN}, https://kurath.dev` };
+  const env: Bindings = {
+    DB: d1,
+    IMAGES: new MemoryR2().asBinding(),
+    ALLOWED_ORIGINS: `${ORIGIN}, https://mitjakurath.ch`,
+  };
   const get = (path: string, headers: Record<string, string> = {}) =>
     app.request(`/api/v1${path}`, { headers }, env);
   return { get, db, env };
@@ -20,7 +25,7 @@ describe('content API', () => {
     const res = await setup().get('/portfolio');
     expect(res.status).toBe(200);
     expect(res.headers.get('content-type')).toContain('application/json');
-    expect(res.headers.get('cache-control')).toContain('max-age=60');
+    expect(res.headers.get('cache-control')).toBe('public, no-cache');
     expect(await res.json()).toEqual(MOCK_PORTFOLIO);
   });
 
@@ -70,7 +75,12 @@ describe('content API', () => {
   it('serves empty lists before anything is added', async () => {
     const res = await setup(false).get('/portfolio');
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ projects: [], skills: [], experience: { roles: [] } });
+    expect(await res.json()).toEqual({
+      profile: { portraitUrl: null },
+      projects: [],
+      skills: [],
+      experience: { roles: [] },
+    });
   });
 
   it('returns 500 problem+json without leaking details when the database fails', async () => {

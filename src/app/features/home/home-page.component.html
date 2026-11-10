@@ -14,7 +14,7 @@
       <section appLoadingState></section>
     }
   }
-  <section appAbout [section]="site.sections.about" [initials]="site.person.initials"></section>
+  <section appAbout [section]="site.sections.about" [initials]="site.person.initials" [portraitUrl]="store.profile().portraitUrl"></section>
   @if (store.status() === 'ready') {
     <section appEquipment [section]="site.sections.equipment" [groups]="store.skills()"></section>
     <section appExperience [section]="site.sections.experience" [roles]="store.roles()"></section>

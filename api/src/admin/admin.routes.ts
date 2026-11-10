@@ -5,6 +5,7 @@ import { problem } from '../problem';
 import { requireAdmin } from './access';
 import { collectionRoutes } from './collection.routes';
 import { projectsCollection, rolesCollection, skillGroupsCollection } from './collections';
+import { mediaRoutes } from './media.routes';
 import { messagesRoutes } from './messages.routes';
 
 /** Everything under /api/v1/admin requires a Cloudflare Access session (see access.ts). */
@@ -29,4 +30,5 @@ export const adminRoutes = new Hono<AdminEnv>()
   .route('/projects', collectionRoutes(projectsCollection))
   .route('/skill-groups', collectionRoutes(skillGroupsCollection))
   .route('/roles', collectionRoutes(rolesCollection))
-  .route('/messages', messagesRoutes);
+  .route('/messages', messagesRoutes)
+  .route('/', mediaRoutes);

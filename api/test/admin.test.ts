@@ -4,6 +4,7 @@ import { MOCK_PORTFOLIO } from '../../src/app/core/mock/mock-data';
 import { buildSeedSql } from '../scripts/seed-sql.mjs';
 import { app } from '../src/app';
 import type { Bindings } from '../src/env';
+import { MemoryR2 } from './memory-r2';
 import { createTestD1, wrapD1 } from './sqlite-d1';
 
 const TEAM = 'https://example-team.cloudflareaccess.com';
@@ -41,8 +42,16 @@ function setup(env: Partial<Bindings> = {}, origin = 'https://kurath.dev') {
   });
   vi.stubGlobal('fetch', fetchMock);
 
+  const images = new MemoryR2();
+  const background: Promise<unknown>[] = [];
+  const ctx = {
+    waitUntil: (p: Promise<unknown>) => background.push(p),
+    passThroughOnException: () => undefined,
+    props: {},
+  } as unknown as ExecutionContext;
   const bindings: Bindings = {
     DB: d1,
+    IMAGES: images.asBinding(),
     ALLOWED_ORIGINS: '',
     ACCESS_TEAM_DOMAIN: TEAM,
     ACCESS_AUD: AUD,
@@ -62,11 +71,24 @@ function setup(env: Partial<Bindings> = {}, origin = 'https://kurath.dev') {
         body: body === undefined ? undefined : JSON.stringify(body),
       },
       bindings,
+      ctx,
     );
+  const upload = async (bytes: Uint8Array, type: string) =>
+    app.request(
+      `${origin}/api/v1/admin/images`,
+      {
+        method: 'POST',
+        headers: { ...(jwt ? { 'Cf-Access-Jwt-Assertion': jwt } : {}), 'Content-Type': type },
+        body: bytes,
+      },
+      bindings,
+      ctx,
+    );
+  const settle = () => Promise.all(background);
   const signIn = async (claims?: Parameters<typeof token>[0]) => {
     jwt = await token(claims);
   };
-  return { call, signIn, db, fetchMock };
+  return { call, upload, settle, signIn, db, fetchMock, images, bindings };
 }
 
 describe('admin authentication', () => {
@@ -156,14 +178,14 @@ describe('admin projects', () => {
     const res = await call('POST', '/projects', NEW_PROJECT);
     expect(res.status).toBe(201);
     expect(res.headers.get('location')).toBe('/api/v1/admin/projects/trail-log');
-    expect(await res.json()).toEqual({ ...NEW_PROJECT, order: 5 });
+    expect(await res.json()).toEqual({ ...NEW_PROJECT, order: 5, imageKey: null });
   });
 
   it('hides drafts from the public API', async () => {
     const { call, signIn, db } = setup();
     await signIn();
     await call('POST', '/projects', NEW_PROJECT);
-    const env = { DB: wrapD1(db), ALLOWED_ORIGINS: '' };
+    const env = { DB: wrapD1(db), IMAGES: new MemoryR2().asBinding(), ALLOWED_ORIGINS: '' };
     const ids = ((await (await app.request('/api/v1/projects', {}, env)).json()) as { id: string }[]).map((p) => p.id);
     expect(ids).not.toContain('trail-log');
 

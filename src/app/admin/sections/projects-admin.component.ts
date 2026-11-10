@@ -7,6 +7,7 @@ import { ProjectArtComponent } from '../../features/work/project-art/project-art
 import { AdminCollection } from '../data/admin-collection';
 import { AdminErrorComponent } from '../ui/admin-error.component';
 import { FocusOnOpenDirective } from '../ui/focus-on-open.directive';
+import { ImageUploadComponent } from '../ui/image-upload.component';
 import { AdminListComponent, AdminRow } from '../ui/admin-list.component';
 import { SLUG_PATTERN, slugify } from '../ui/slug';
 
@@ -33,7 +34,14 @@ const FIELD_LABELS: Record<string, string> = {
 /** Projects: list (incl. drafts), reorder, create, edit, delete. */
 @Component({
   selector: 'app-projects-admin',
-  imports: [ReactiveFormsModule, FocusOnOpenDirective, AdminListComponent, AdminErrorComponent, ProjectArtComponent],
+  imports: [
+    ReactiveFormsModule,
+    FocusOnOpenDirective,
+    AdminListComponent,
+    AdminErrorComponent,
+    ProjectArtComponent,
+    ImageUploadComponent,
+  ],
   templateUrl: './projects-admin.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -70,6 +78,9 @@ export class ProjectsAdminComponent {
   });
 
   private readonly formValue = toSignal(this.form.valueChanges, { initialValue: this.form.getRawValue() });
+  /** Banner image of the entry being edited (saved together with the form). */
+  protected readonly image = signal<{ key: string | null; url: string | null }>({ key: null, url: null });
+
   protected readonly preview = computed(() => {
     const value = { ...this.form.getRawValue(), ...this.formValue() };
     return {
@@ -91,6 +102,7 @@ export class ProjectsAdminComponent {
     this.collection.clearError();
     this.form.reset();
     this.form.controls.id.enable();
+    this.image.set({ key: null, url: null });
     this.editingId.set(null);
   }
 
@@ -111,6 +123,7 @@ export class ProjectsAdminComponent {
       url: project.url ?? '',
       published: project.published,
     });
+    this.image.set({ key: project.imageKey, url: project.imageUrl ?? null });
     this.form.controls.id.disable();
     this.editingId.set(id);
   }
@@ -137,6 +150,7 @@ export class ProjectsAdminComponent {
       url: value.url || undefined,
       layoutClass: id ? this.collection.find(id)?.layoutClass : undefined,
       published: value.published,
+      imageKey: this.image().key,
     };
     const saved = await this.collection.save(id ?? null, id ? body : { id: value.id, ...body });
     if (saved) this.close();

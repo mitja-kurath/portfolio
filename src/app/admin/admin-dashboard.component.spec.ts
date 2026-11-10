@@ -60,10 +60,11 @@ describe('AdminDashboardComponent', () => {
       ['Projects', 'true'],
       ['Skills', 'false'],
       ['Experience', 'false'],
+      ['Profile', 'false'],
       ['Messages', 'false'],
     ]);
 
-    tabs[3].click();
+    tabs[4].click();
     await tick();
     http.expectOne('/api/v1/admin/messages').flush([
       {

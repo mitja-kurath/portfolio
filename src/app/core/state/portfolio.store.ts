@@ -8,7 +8,7 @@ import {
   makeStateKey,
 } from '@angular/core';
 import { API_ENDPOINTS } from '../api/api.config';
-import { PortfolioDto, ProjectDto, RoleDto, SkillGroupDto } from '../api/api.models';
+import { PortfolioDto, ProfileDto, ProjectDto, RoleDto, SkillGroupDto } from '../api/api.models';
 import { ApiError, toApiError } from '../api/api-error';
 import { byOrder } from '../util/format';
 
@@ -55,6 +55,7 @@ export class PortfolioStore {
   readonly projects = computed<ProjectDto[]>(() => byOrder(this.data()?.projects ?? []));
   readonly skills = computed<SkillGroupDto[]>(() => byOrder(this.data()?.skills ?? []));
   readonly roles = computed<RoleDto[]>(() => byOrder(this.data()?.experience.roles ?? []));
+  readonly profile = computed<ProfileDto>(() => this.data()?.profile ?? { portraitUrl: null });
   readonly experience = computed(() => ({ roles: this.roles() }));
 
   constructor() {

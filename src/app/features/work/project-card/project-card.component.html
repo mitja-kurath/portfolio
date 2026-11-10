@@ -1,6 +1,19 @@
 @let p = card().project;
 <div class="project-image">
-  <div appProjectArt [variant]="p.artVariant" [coordinates]="p.coordinates" [index]="card().position"></div>
+  @if (p.imageUrl) {
+    <!-- Uploaded banner (admin) replaces the illustrated artwork. -->
+    <div class="project-photo">
+      <img [ngSrc]="p.imageUrl" fill sizes="(max-width: 800px) 100vw, 40vw" alt="" />
+      <span class="art-coordinates">
+        @for (line of p.coordinates; track $index) {
+          @if (!$first) {<br />}
+          {{ line }}
+        }
+      </span>
+    </div>
+  } @else {
+    <div appProjectArt [variant]="p.artVariant" [coordinates]="p.coordinates" [index]="card().position"></div>
+  }
 </div>
 <div class="project-copy">
   <div class="project-meta">

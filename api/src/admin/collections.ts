@@ -13,11 +13,13 @@ import type { Collection } from './collection.routes';
 export const projectsCollection: Collection<AdminProjectDto> = {
   table: 'projects',
   columns:
-    'id, sort_order, name, type, year, stack, description, art_variant, coordinates, layout_class, url, published',
-  toDto: (row) => ({
-    ...toProjectDto(row as unknown as ProjectRow),
+    'id, sort_order, name, type, year, stack, description, art_variant, coordinates, layout_class, url, image_key, published',
+  toDto: (row, imageUrl) => ({
+    ...toProjectDto(row as unknown as ProjectRow, imageUrl),
     published: row['published'] === 1,
+    imageKey: (row['image_key'] as string | null) ?? null,
   }),
+  imageColumns: ['image_key'],
   read: (v) => ({
     name: v.text('name', 80),
     type: v.text('type', 80),
@@ -28,6 +30,7 @@ export const projectsCollection: Collection<AdminProjectDto> = {
     coordinates: JSON.stringify(v.textList('coordinates', 2, 40)),
     layout_class: v.text('layoutClass', 40, false) || null,
     url: v.optionalUrl('url'),
+    image_key: v.imageKey('imageKey'),
     published: v.bool('published') ? 1 : 0,
   }),
 };

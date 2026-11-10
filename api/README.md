@@ -39,7 +39,8 @@ pnpm typecheck
 | POST   | `/api/v1/contact-messages` | stores a message, emails you (see below) |
 | *      | `/api/v1/admin/*` | admin panel API, behind Cloudflare Access (see [API.md](../API.md#admin-api-admin)) |
 
-- Responses are cacheable for 60 s (`stale-while-revalidate` 10 min) and carry an `ETag`.
+- Responses carry an `ETag` and `Cache-Control: no-cache`: browsers revalidate on every load
+  (unchanged → 304), so admin edits show up on the next page load.
 - Errors are `application/problem+json` (RFC 7807), never cached.
 - CORS allows the origins in `ALLOWED_ORIGINS` (`wrangler.jsonc`).
 - Projects with `published = 0` are drafts: stored, but not served.
@@ -51,6 +52,7 @@ pnpm typecheck
 | `projects`     | `art_variant` 1–4, `coordinates` JSON array, optional `layout_class` / `url`, `published` |
 | `skill_groups` | `items` JSON array |
 | `roles`        | `is_current` marks the role shown as NOW |
+| `settings`     | key/value, e.g. `portraitKey` (the portrait image) |
 | `contact_messages` | name, email, message, `created_at`, `read_at` (no IP or user agent) |
 
 The content tables have `sort_order` (→ `order` in the API). Schema changes go in a new numbered
@@ -116,6 +118,7 @@ pnpm exec wrangler login
 pnpm exec wrangler d1 create portfolio      # answer "no" to adding it for you; put the printed
                                             # database_id into the existing DB binding in wrangler.jsonc
 pnpm db:migrate:remote
+pnpm exec wrangler r2 bucket create portfolio-images   # storage for uploaded images
 pnpm db:seed:remote                         # once; later the admin panel edits the data
 pnpm exec wrangler secret put TURNSTILE_SECRET_KEY   # see "Contact form"
 pnpm run deploy                             # → https://portfolio-api.<account>.workers.dev

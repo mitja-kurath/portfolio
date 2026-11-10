@@ -33,6 +33,8 @@ export interface AboutSection {
   quote: { before: string; emphasis: string };
   paragraphs: string[];
   portraitLabel: string;
+  /** Alt text of the uploaded portrait photo. */
+  portraitAlt: string;
   stampLines: string[];
   stampSmall: string;
   linkLabel: string;

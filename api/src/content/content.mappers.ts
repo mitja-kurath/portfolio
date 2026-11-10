@@ -18,6 +18,7 @@ export interface ProjectRow {
   coordinates: string;
   layout_class: string | null;
   url: string | null;
+  image_key: string | null;
 }
 
 export interface SkillGroupRow {
@@ -36,7 +37,10 @@ export interface RoleRow {
   is_current: number;
 }
 
-export function toProjectDto(row: ProjectRow): ProjectDto {
+/** Turns an R2 image key into a public URL. */
+export type ImageUrlFn = (key: string) => string;
+
+export function toProjectDto(row: ProjectRow, imageUrl: ImageUrlFn): ProjectDto {
   return {
     id: row.id,
     order: row.sort_order,
@@ -49,6 +53,7 @@ export function toProjectDto(row: ProjectRow): ProjectDto {
     coordinates: JSON.parse(row.coordinates) as string[],
     ...(row.layout_class ? { layoutClass: row.layout_class } : {}),
     ...(row.url ? { url: row.url } : {}),
+    ...(row.image_key ? { imageUrl: imageUrl(row.image_key) } : {}),
   };
 }
 

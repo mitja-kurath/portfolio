@@ -1,6 +1,8 @@
 /** Bindings, variables and secrets configured in wrangler.jsonc / `wrangler secret put`. */
 export interface Bindings {
   DB: D1Database;
+  /** R2 bucket for uploaded images (project banners, portrait). */
+  IMAGES: R2Bucket;
   /** Comma-separated list of origins allowed to call the API from a browser (CORS). */
   ALLOWED_ORIGINS: string;
   /** Limits contact form posts per IP (see `ratelimits` in wrangler.jsonc). */

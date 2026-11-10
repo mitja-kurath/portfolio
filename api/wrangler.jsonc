@@ -15,6 +15,13 @@
 			"migrations_dir": "migrations"
 		}
 	],
+	// Uploaded images (project banners, portrait). Create once: `pnpm exec wrangler r2 bucket create portfolio-images`.
+	"r2_buckets": [
+		{
+			"binding": "IMAGES",
+			"bucket_name": "portfolio-images"
+		}
+	],
 	"vars": {
 		// Browser origins allowed to call the API (CORS). Add your Pages domain(s) here.
 		"ALLOWED_ORIGINS": "http://localhost:4200,https://mitjakurath.ch,https://portfolio-76o.pages.dev",
@@ -43,7 +50,10 @@
 	// can protect /api/v1/admin together with /admin.
 	"routes": [{ "pattern": "mitjakurath.ch/api/*", "zone_name": "mitjakurath.ch" }],
 	// `ng serve` proxies /api to localhost:8080 (proxy.conf.json), so the local API listens there.
+	// `host`: keep request URLs on localhost in `wrangler dev` (otherwise they take the route's
+	// host, which turns off the localhost-only admin bypass and yields production image URLs).
 	"dev": {
-		"port": 8080
+		"port": 8080,
+		"host": "localhost:8080"
 	}
 }

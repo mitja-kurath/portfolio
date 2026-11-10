@@ -13,6 +13,8 @@ export interface AdminSessionDto {
 /** Projects include drafts in the admin API. */
 export interface AdminProjectDto extends ProjectDto {
   published: boolean;
+  /** Key of the uploaded banner image (see `POST /admin/images`), or null. */
+  imageKey: string | null;
 }
 
 /** Body of `POST /admin/<collection>`: every field incl. the id (slug). */
@@ -27,6 +29,18 @@ export type RoleInput = UpdateBody<RoleDto>;
 /** Body of `PUT /admin/<collection>/order`: every id of the collection, in the new order. */
 export interface ReorderRequest {
   ids: string[];
+}
+
+/** Response of `POST /admin/images` (raw image body, max. 5 MB). */
+export interface UploadedImageDto {
+  key: string;
+  url: string;
+}
+
+/** `GET` / `PUT /admin/profile`. PUT takes `{ portraitKey }`. */
+export interface AdminProfileDto {
+  portraitKey: string | null;
+  portraitUrl: string | null;
 }
 
 export interface ContactMessageDto {

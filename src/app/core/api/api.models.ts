@@ -22,6 +22,8 @@ export interface ProjectDto {
   layoutClass?: string;
   /** Optional link; when present the card's ↗ arrow becomes a link. */
   url?: string;
+  /** Optional uploaded banner image (absolute URL); replaces the artwork when present. */
+  imageUrl?: string;
 }
 
 export interface SkillGroupDto {
@@ -44,7 +46,14 @@ export interface ExperienceDto {
   roles: RoleDto[];
 }
 
+/** Uploaded personal media. */
+export interface ProfileDto {
+  /** Portrait photo for the About section; null → the illustrated placeholder. */
+  portraitUrl: string | null;
+}
+
 export interface PortfolioDto {
+  profile: ProfileDto;
   projects: ProjectDto[];
   skills: SkillGroupDto[];
   experience: ExperienceDto;

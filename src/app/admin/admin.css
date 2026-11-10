@@ -71,6 +71,16 @@
 .admin-art-preview .project-art { min-height: 0; height: 100%; }
 .admin-editor-actions { display: flex; justify-content: flex-end; margin-top: 18px; }
 
+.admin-image { display: grid; gap: 10px; }
+.admin-image-preview { display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; border: 1px dashed var(--ink); background: var(--soft); text-align: center; padding: 0; }
+.admin-image.is-portrait .admin-image-preview { aspect-ratio: 3 / 4; max-width: 280px; }
+.admin-image-preview img { width: 100%; height: 100%; object-fit: cover; }
+.admin-image-preview .admin-muted { padding: 12px; }
+.admin-image-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+/* The file input stays focusable (keyboard) but is drawn as the label button next to it. */
+.admin-file { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.admin-file:focus-visible + label { outline: 2px solid var(--red); outline-offset: 2px; }
+.admin label.is-disabled { opacity: .55; cursor: not-allowed; }
 .admin-error { margin: 14px 0; padding: 12px 14px; border: 1px solid var(--red); border-left-width: 5px; background: color-mix(in srgb, var(--red) 8%, var(--paper)); }
 .admin-error p, .admin-error ul { margin-top: 4px; font: 500 12px/1.5 var(--mono); }
 .admin-error ul { padding-left: 18px; }

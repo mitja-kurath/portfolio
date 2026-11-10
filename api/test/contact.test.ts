@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { app } from '../src/app';
 import type { Bindings } from '../src/env';
+import { MemoryR2 } from './memory-r2';
 import { createTestD1 } from './sqlite-d1';
 
 const VALID = {
@@ -35,6 +36,7 @@ function setup({ turnstilePasses = true, limiterAllows = true, env = {} }: Setup
 
   const bindings: Bindings = {
     DB: d1,
+    IMAGES: new MemoryR2().asBinding(),
     ALLOWED_ORIGINS: 'http://localhost:4200',
     TURNSTILE_SECRET_KEY: 'secret',
     CONTACT_LIMITER: { limit: async () => ({ success: limiterAllows }) } as unknown as RateLimit,

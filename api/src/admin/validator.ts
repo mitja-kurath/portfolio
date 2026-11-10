@@ -1,3 +1,5 @@
+import { IMAGE_KEY } from '../images/images';
+
 /** Collects field errors while reading an untrusted JSON body. */
 export class Validator {
   readonly errors: Record<string, string> = {};
@@ -40,6 +42,17 @@ export class Validator {
     }
     this.errors[key] = 'Must be an http(s) URL.';
     return null;
+  }
+
+  /** Key of an uploaded image (`POST /admin/images`), or null when empty/absent. */
+  imageKey(key: string): string | null {
+    const raw = this.input[key];
+    if (raw === undefined || raw === null || raw === '') return null;
+    if (typeof raw !== 'string' || !IMAGE_KEY.test(raw)) {
+      this.errors[key] = 'Not a valid uploaded image.';
+      return null;
+    }
+    return raw;
   }
 
   bool(key: string): boolean {

@@ -86,6 +86,15 @@
         <div class="admin-art-preview" aria-hidden="true">
           <div appProjectArt [variant]="preview().variant" [coordinates]="preview().coordinates" index="00"></div>
         </div>
+        <div class="admin-field">
+          <span>Banner image <small>(optional, replaces the artwork on the card)</small></span>
+          <app-image-upload
+            label="Banner"
+            [url]="image().url"
+            (uploaded)="image.set({ key: $event.key, url: $event.url })"
+            (removed)="image.set({ key: null, url: null })"
+          />
+        </div>
       </div>
     </div>
 

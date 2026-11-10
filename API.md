@@ -39,8 +39,8 @@ Returns everything the page needs in a single request:
 }
 ```
 
-`200 OK` · The Worker sends `Cache-Control: public, max-age=60, stale-while-revalidate=600`
-and an `ETag` (repeat requests with `If-None-Match` get `304`).
+`200 OK` · The Worker sends `Cache-Control: public, no-cache` and an `ETag`: browsers
+revalidate on every load and get `304 Not Modified` while nothing changed.
 
 ---
 
@@ -267,6 +267,14 @@ Errors (`application/problem+json`):
 
 ---
 
+## GET /images/:key
+
+Public. Serves an uploaded image from R2 with `Cache-Control: public, max-age=31536000, immutable`
+(keys never change; a new upload gets a new key). Projects expose it as `imageUrl`, the
+portfolio as `profile.portraitUrl`. Replaced or deleted images are removed from R2.
+
+---
+
 ## Admin API (`/admin/*`)
 
 Used by the admin panel at `/admin`. Every request needs a Cloudflare Access session: Access
@@ -279,11 +287,13 @@ Types: `src/app/core/api/admin.models.ts`.
 | GET    | `/admin/session` | `{ email, canRebuild }` |
 | POST   | `/admin/rebuild` | Triggers the Pages deploy hook → `202` (`501` if none configured) |
 | GET    | `/admin/projects` | All projects incl. drafts (`published: boolean`) |
-| POST   | `/admin/projects` | `{ id, name, type, year, stack, description, artVariant, coordinates, url?, published }` → `201` (`409` if the id exists) |
+| POST   | `/admin/projects` | `{ id, name, type, year, stack, description, artVariant, coordinates, url?, imageKey?, published }` → `201` (`409` if the id exists) |
 | PUT    | `/admin/projects/:id` | Same fields without `id` → updated project |
 | PUT    | `/admin/projects/order` | `{ ids: [...] }`, every id exactly once → reordered list |
 | DELETE | `/admin/projects/:id` | `204` |
 | …      | `/admin/skill-groups`, `/admin/roles` | Same five operations. Fields: `{ title, items[] }` / `{ year, title, subtitle, isCurrent }` |
+| POST   | `/admin/images` | Raw image body (WebP, JPEG, PNG or AVIF, max. 5 MB; bytes must match the type) → `201 { key, url }`. Use the key as a project's `imageKey` or as `portraitKey` |
+| GET / PUT | `/admin/profile` | `{ portraitKey, portraitUrl }` / body `{ portraitKey }` (null removes the portrait) |
 | GET    | `/admin/messages` | Contact messages, newest first: `{ id, name, email, message, receivedAt, readAt }` |
 | PATCH  | `/admin/messages/:id` | `{ read: boolean }` → updated message |
 | DELETE | `/admin/messages/:id` | `204` |

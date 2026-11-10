@@ -4,12 +4,13 @@ import { AdminSessionDto } from '../core/api/admin.models';
 import { ApiError, toApiError } from '../core/api/api-error';
 import { AdminApiService } from './data/admin-api.service';
 import { MessagesAdminComponent } from './sections/messages-admin.component';
+import { ProfileAdminComponent } from './sections/profile-admin.component';
 import { ProjectsAdminComponent } from './sections/projects-admin.component';
 import { RolesAdminComponent } from './sections/roles-admin.component';
 import { SkillsAdminComponent } from './sections/skills-admin.component';
 import { AdminErrorComponent } from './ui/admin-error.component';
 
-type Section = 'projects' | 'skills' | 'roles' | 'messages';
+type Section = 'projects' | 'skills' | 'roles' | 'profile' | 'messages';
 
 /** Admin shell: session check, section switcher, rebuild action. Browser only. */
 @Component({
@@ -19,6 +20,7 @@ type Section = 'projects' | 'skills' | 'roles' | 'messages';
     SkillsAdminComponent,
     RolesAdminComponent,
     MessagesAdminComponent,
+    ProfileAdminComponent,
     AdminErrorComponent,
   ],
   templateUrl: './admin-dashboard.component.html',
@@ -33,6 +35,7 @@ export class AdminDashboardComponent {
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
     { id: 'roles', label: 'Experience' },
+    { id: 'profile', label: 'Profile' },
     { id: 'messages', label: 'Messages' },
   ];
   protected readonly section = signal<Section>('projects');

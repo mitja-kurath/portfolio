@@ -115,6 +115,10 @@ h2 em, blockquote em { color: var(--forest); font-family: Georgia, serif; font-w
 .art-3 { background: #c9c8bd; color: #343f38; }
 .art-4 { background: var(--red); color: #fff5e8; }
 .art-coordinates { position: absolute; top: 18px; left: 18px; z-index: 3; font: 500 8px/1.4 var(--mono); }
+/* Uploaded project banner (admin). Coordinates sit on a dark tab so they stay readable. */
+.project-photo { position: relative; height: 100%; min-height: inherit; background: var(--soft); }
+.project-photo img { object-fit: cover; }
+.project-photo .art-coordinates { top: 12px; left: 12px; padding: 5px 7px; background: #111; color: #f3f0e7; }
 .art-index { position: absolute; right: 13px; bottom: -25px; font: 800 160px/.8 var(--sans); opacity: .13; letter-spacing: -.1em; }
 .signal-rings { position: absolute; inset: 0; display: grid; place-items: center; }
 .signal-rings i { position: absolute; border: 2px solid currentColor; border-radius: 50%; width: 90px; height: 90px; }
@@ -128,9 +132,11 @@ h2 em, blockquote em { color: var(--forest); font-family: Georgia, serif; font-w
 .fire-symbol i { width: 45px; height: 150px; border-radius: 60% 0 60% 40%; background: #fff2c7; transform: rotate(35deg); transform-origin: bottom; }
 .fire-symbol i:nth-child(2) { height: 220px; margin-left: -15px; background: var(--yellow); }
 .fire-symbol i:nth-child(3) { height: 115px; margin-left: -5px; transform: rotate(-30deg); }
-.project-copy { display: flex; flex-direction: column; padding: 20px 24px; }
+.project-copy { display: flex; flex-direction: column; padding: 20px 24px; container-type: inline-size; }
 .project-meta { display: flex; justify-content: space-between; font: 500 8px var(--mono); text-transform: uppercase; }
-.project-copy h3 { margin: auto 0 8px; font-size: clamp(40px, 4.5vw, 68px); line-height: .9; letter-spacing: -.04em; }
+.project-copy h3 { margin: auto 0 8px; font-size: clamp(40px, 4.5vw, 68px); line-height: .9; letter-spacing: -.04em; overflow-wrap: anywhere; }
+/* Long names (e.g. markdown2pdf): shrink so the longest word fits the card (--name-chars is set per card). */
+.project-copy h3 { font-size: min(clamp(40px, 4.5vw, 68px), calc(100cqi / (var(--name-chars, 6) * .56))); }
 .project-copy p { font-size: 13px; line-height: 1.45; color: var(--muted); }
 .project-stack { margin-top: 24px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font: 500 8px var(--mono); text-transform: uppercase; }
 .project-stack b { font-size: 17px; color: var(--red); }
@@ -143,6 +149,9 @@ h2 em, blockquote em { color: var(--forest); font-family: Georgia, serif; font-w
 .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 8%; padding: 110px 6% 0; align-items: center; }
 .portrait { position: relative; aspect-ratio: 3/4; overflow: hidden; overflow: clip; background: #c6c5b9; color: #191b18; filter: contrast(1.05); }
 .portrait::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 25%, transparent 0 19%, #a3a49b 20% 21%, transparent 22%), linear-gradient(155deg, transparent 0 50%, #707b72 51%); opacity: .8; }
+.portrait.has-photo::before, .portrait.has-photo::after { content: none; }
+/* Uploaded portrait: monochrome, so it sits in the palette like the illustrated placeholder. */
+.portrait-photo { z-index: 1; object-fit: cover; filter: grayscale(1) contrast(1.05); }
 .portrait::after { content: ''; position: absolute; width: 42%; height: 62%; border-radius: 50% 50% 5% 5%; background: #333b36; left: 29%; top: 25%; box-shadow: 0 -70px 0 -25px #333b36; }
 .portrait-horizon { position: absolute; inset: 0; z-index: 2; background: repeating-linear-gradient(0deg, transparent 0 45px, #1112 46px); mix-blend-mode: multiply; }
 .portrait-label { position: absolute; z-index: 3; left: 13px; top: 13px; font: 500 7px var(--mono); }
@@ -263,7 +272,7 @@ footer > a span { color: var(--yellow); font-size: 16px; margin-left: 10px; }
   .project-b .project-copy, .project-d .project-copy { order: 1; }
   .project-image, .project-art { min-height: 225px; }
   .project-copy { min-height: 250px; padding: 16px 18px; }
-  .project-copy h3 { font-size: 45px; margin-top: 38px; }
+  .project-copy h3 { font-size: min(45px, calc(100cqi / (var(--name-chars, 6) * .56))); margin-top: 38px; }
   .route-node, .project-b .route-node, .project-d .route-node { right: auto; left: -55px; top: 42px; width: 34px; height: 34px; }
   .about { padding-bottom: 85px; }
   .about-grid { display: flex; flex-direction: column; padding: 70px 0 0; gap: 65px; }

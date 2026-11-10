@@ -6,6 +6,7 @@ import type { PortfolioDto } from '../api/api.models';
  * payload documented in API.md. Live content is edited in the admin panel.
  */
 export const MOCK_PORTFOLIO: PortfolioDto = {
+  profile: { portraitUrl: null },
   projects: [
     {
       id: 'marsch',

@@ -55,6 +55,7 @@ export const SITE_CONTENT: SiteContent = {
         'Away from the screen, I lead a local scout group. It keeps me practical: plan well, adapt quickly, leave things better than you found them.',
       ],
       portraitLabel: '// PORTRAIT, SOMEWHERE OUTSIDE',
+      portraitAlt: 'Portrait of Mitja Kurath',
       stampLines: ['OUT', 'THERE'],
       stampSmall: 'EST. 1997',
       linkLabel: 'More about the route',

@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { ContactMessageDto } from '../../core/api/admin.models';
+import {
+  AdminProfileDto,
+  ContactMessageDto,
+  UploadedImageDto,
+} from '../../core/api/admin.models';
 
 /**
  * Write operations of the admin API (`/api/v1/admin`). Reads use `httpResource` in the
@@ -31,6 +35,19 @@ export class AdminApiService {
     return firstValueFrom(
       this.http.patch<ContactMessageDto>(`admin/messages/${encodeURIComponent(id)}`, { read }),
     );
+  }
+
+  /** Uploads an image as the raw request body (its MIME type as Content-Type). */
+  uploadImage(image: Blob): Promise<UploadedImageDto> {
+    return firstValueFrom(
+      this.http.post<UploadedImageDto>('admin/images', image, {
+        headers: { 'Content-Type': image.type },
+      }),
+    );
+  }
+
+  saveProfile(portraitKey: string | null): Promise<AdminProfileDto> {
+    return firstValueFrom(this.http.put<AdminProfileDto>('admin/profile', { portraitKey }));
   }
 
   rebuildSite(): Promise<unknown> {

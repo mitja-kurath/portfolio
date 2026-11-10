@@ -4,6 +4,7 @@ import { etag } from 'hono/etag';
 import { adminRoutes } from './admin/admin.routes';
 import { contactRoutes } from './contact/contact.routes';
 import { contentRoutes } from './content/content.routes';
+import { imagesRoutes } from './images/images.routes';
 import type { AppEnv } from './env';
 import { ProblemError, problem } from './problem';
 
@@ -21,6 +22,7 @@ app.use(etag());
 
 app.route('/', contentRoutes);
 app.route('/', contactRoutes);
+app.route('/', imagesRoutes);
 app.route('/admin', adminRoutes);
 
 app.notFound((c) => problem(c, 404, 'Not Found', `No endpoint at ${c.req.method} ${c.req.path}.`));

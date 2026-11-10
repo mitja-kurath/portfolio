@@ -1,6 +1,9 @@
 @let s = section();
 <div class="about-grid">
-  <div class="portrait">
+  <div class="portrait" [class.has-photo]="!!portraitUrl()">
+    @if (portraitUrl(); as url) {
+      <img class="portrait-photo" [ngSrc]="url" fill sizes="(max-width: 800px) 88vw, 30vw" [alt]="s.portraitAlt" />
+    }
     <div class="portrait-horizon"></div>
     <span class="portrait-label">{{ s.portraitLabel }}</span>
     <span class="portrait-mk">{{ initials() }}</span>

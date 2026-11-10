@@ -11,6 +11,7 @@ import { ProjectsAdminComponent } from './projects-admin.component';
 const PROJECTS: AdminProjectDto[] = MOCK_PORTFOLIO.projects.map((p, i) => ({
   ...p,
   published: i !== 1,
+  imageKey: null,
 }));
 
 describe('ProjectsAdminComponent', () => {
@@ -105,6 +106,7 @@ describe('ProjectsAdminComponent', () => {
       artVariant: 1,
       coordinates: ['N 46°'],
       published: true,
+      imageKey: null,
     });
     req.flush({ ...req.request.body, order: 5 }, { status: 201, statusText: 'Created' });
     await tick();
