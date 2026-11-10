@@ -78,7 +78,10 @@
 .admin-image-preview .admin-muted { padding: 12px; }
 .admin-image-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 /* The file input stays focusable (keyboard) but is drawn as the label button next to it. */
-.admin-file { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.admin-image-actions { position: relative; }
+/* Visually hidden. Specific enough to beat `.admin-field input`, which would otherwise size it to
+   a full-width invisible layer over the Remove button. */
+.admin .admin-field input.admin-file, .admin-file { position: absolute; width: 1px; height: 1px; min-height: 0; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); opacity: 0; pointer-events: none; }
 .admin-file:focus-visible + label { outline: 2px solid var(--red); outline-offset: 2px; }
 .admin label.is-disabled { opacity: .55; cursor: not-allowed; }
 .admin-error { margin: 14px 0; padding: 12px 14px; border: 1px solid var(--red); border-left-width: 5px; background: color-mix(in srgb, var(--red) 8%, var(--paper)); }
