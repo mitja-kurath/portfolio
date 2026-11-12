@@ -22,19 +22,40 @@ export class SeoService {
     if (seo.language) {
       this.document.documentElement.lang = seo.language;
     }
+    const url = `${seo.siteUrl}/`;
+    const image = new URL(seo.image, seo.siteUrl).href;
     const tags: { key: 'name' | 'property'; id: string; content: string }[] = [
       { key: 'name', id: 'description', content: seo.description },
       { key: 'property', id: 'og:type', content: 'website' },
+      { key: 'property', id: 'og:site_name', content: seo.title },
+      { key: 'property', id: 'og:url', content: url },
+      { key: 'property', id: 'og:image', content: image },
+      { key: 'property', id: 'og:image:width', content: '1200' },
+      { key: 'property', id: 'og:image:height', content: '630' },
+      { key: 'property', id: 'og:image:alt', content: seo.imageAlt },
       { key: 'property', id: 'og:title', content: seo.title },
       { key: 'property', id: 'og:description', content: seo.description },
-      { key: 'name', id: 'twitter:card', content: 'summary' },
+      { key: 'name', id: 'twitter:card', content: 'summary_large_image' },
       { key: 'name', id: 'twitter:title', content: seo.title },
       { key: 'name', id: 'twitter:description', content: seo.description },
+      { key: 'name', id: 'twitter:image', content: image },
+      { key: 'name', id: 'twitter:image:alt', content: seo.imageAlt },
     ];
     for (const { key, id, content } of tags) {
       this.meta.updateTag({ [key]: id, content }, `${key}="${id}"`);
     }
+    this.applyCanonical(url);
     this.applyJsonLd(site);
+  }
+
+  private applyCanonical(href: string): void {
+    let link = this.document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!link) {
+      link = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      this.document.head.appendChild(link);
+    }
+    link.setAttribute('href', href);
   }
 
   private applyJsonLd(site: SiteContent): void {
@@ -44,6 +65,8 @@ export class SeoService {
       '@type': 'Person',
       name: `${capitalize(site.person.firstName)} ${capitalize(site.person.lastName)}`,
       description: site.seo.description,
+      url: `${site.seo.siteUrl}/`,
+      image: new URL(site.seo.image, site.seo.siteUrl).href,
       ...(email ? { email: email.href.replace(/^mailto:/, '') } : {}),
       sameAs: site.contactLinks.filter((link) => link.external).map((link) => link.href),
     };

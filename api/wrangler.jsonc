@@ -26,8 +26,8 @@
 		// Browser origins allowed to call the API (CORS). Add your Pages domain(s) here.
 		"ALLOWED_ORIGINS": "http://localhost:4200,https://mitjakurath.ch,https://portfolio-76o.pages.dev",
 		// Contact form email notification (sender must be on a domain verified at Resend).
-		"CONTACT_TO_EMAIL": "",
-		"CONTACT_FROM_EMAIL": "",
+		"CONTACT_TO_EMAIL": "hi@mitjakurath.ch",
+		"CONTACT_FROM_EMAIL": "Portfolio <portfolio@mitjakurath.ch>",
 		// Admin API (Cloudflare Access). See api/README.md → Admin panel.
 		"ACCESS_TEAM_DOMAIN": "https://portfolio-76o-pages.cloudflareaccess.com",
 		"ACCESS_AUD": "1f461c98162b0012d58f5b194ef36b1d8cc9dfe1e0849f78f7e85622b87b6496",
@@ -48,7 +48,12 @@
 	],
 	// Serve the API on the site's own domain: same origin for the site, and Cloudflare Access
 	// can protect /api/v1/admin together with /admin.
-	"routes": [{ "pattern": "mitjakurath.ch/api/*", "zone_name": "mitjakurath.ch" }],
+	"routes": [
+		{
+			"pattern": "mitjakurath.ch/api/*",
+			"zone_name": "mitjakurath.ch"
+		}
+	],
 	// `ng serve` proxies /api to localhost:8080 (proxy.conf.json), so the local API listens there.
 	// `host`: keep request URLs on localhost in `wrangler dev` (otherwise they take the route's
 	// host, which turns off the localhost-only admin bypass and yields production image URLs).

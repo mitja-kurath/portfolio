@@ -10,6 +10,9 @@ export const SITE_CONTENT: SiteContent = {
     description:
       'Mitja Kurath, software developer and scout based in Switzerland. Building things that hold up in any weather.',
     language: 'en',
+    siteUrl: 'https://mitjakurath.ch',
+    image: '/og-image.png',
+    imageAlt: 'Mitja Kurath: software developer and scout, St. Gallen. mitjakurath.ch',
   },
   person: {
     firstName: 'MITJA',

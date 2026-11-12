@@ -89,7 +89,16 @@ export interface ContactFormConfig {
 }
 
 export interface SiteContent {
-  seo: { title: string; description: string; language: string };
+  seo: {
+    title: string;
+    description: string;
+    language: string;
+    /** Canonical origin, e.g. https://example.com (link previews need absolute URLs). */
+    siteUrl: string;
+    /** Share image (1200×630), path relative to siteUrl. */
+    image: string;
+    imageAlt: string;
+  };
   person: { firstName: string; lastName: string; initials: string; ariaHomeLabel: string };
   /** IANA zone for the footer clock, e.g. `Europe/Zurich`. */
   timezone: string;

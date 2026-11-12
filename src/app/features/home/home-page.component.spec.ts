@@ -203,7 +203,12 @@ describe('HomePageComponent (rendered against the mock API)', () => {
     expect(document.title).toBe('Mitja Kurath – Base Camp');
     expect(meta('meta[name="description"]')).toContain('Mitja Kurath');
     expect(meta('meta[property="og:title"]')).toBe('Mitja Kurath – Base Camp');
-    expect(meta('meta[name="twitter:card"]')).toBe('summary');
+    expect(meta('meta[name="twitter:card"]')).toBe('summary_large_image');
+    expect(meta('meta[property="og:image"]')).toBe('https://mitjakurath.ch/og-image.png');
+    expect(meta('meta[property="og:url"]')).toBe('https://mitjakurath.ch/');
+    expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+      'https://mitjakurath.ch/',
+    );
     const jsonLd = JSON.parse(document.getElementById('person-jsonld')!.textContent!);
     expect(jsonLd).toMatchObject({
       '@type': 'Person',

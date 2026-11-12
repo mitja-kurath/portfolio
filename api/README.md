@@ -102,7 +102,7 @@ Setup for production:
 2. **Email (optional):** create a Resend account and verify your domain.
    - `pnpm exec wrangler secret put RESEND_API_KEY`
    - Set `CONTACT_TO_EMAIL` (your inbox) and `CONTACT_FROM_EMAIL` (e.g.
-     `Portfolio <contact@mitjakurath.ch>`) in `wrangler.jsonc`.
+     `Portfolio <portfolio@mitjakurath.ch>`) in `wrangler.jsonc` (already set).
    - Without these, messages are only stored. The admin panel (next step) will list them.
 3. Deploy the Worker first, then the site with the form enabled.
 
